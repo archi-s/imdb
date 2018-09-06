@@ -1,17 +1,17 @@
-require 'csv'
-require 'date'
-require 'money'
-require_relative '../lib/cash_box'
-require_relative '../lib/movie_collection'
-require_relative '../lib/movie'
+# require 'csv'
+# require 'date'
+# require 'money'
+# require_relative '../lib/cash_box'
+# require_relative '../lib/movie_collection'
+# require_relative '../lib/movie'
 
-begin
-  collection = Imdb::MovieCollection.new('../lib/movies.txt')
-  netflix = Imdb::Netflix.new('../lib/movies.txt')
-  theatre = Imdb::Theatre.new('../lib/movies.txt')
-rescue Imdb::Movie::ClassNotFound => e
-  p e.message
-end
+# begin
+#   collection = Imdb::MovieCollection.new('../lib/movies.txt')
+#   netflix = Imdb::Netflix.new('../lib/movies.txt')
+#   theatre = Imdb::Theatre.new('../lib/movies.txt')
+# rescue Imdb::Movie::ClassNotFound => e
+#   p e.message
+# end
 
 # p collection.all
 # p collection.genres
@@ -104,17 +104,17 @@ end
 # p Imdb::MovieCollection.new('../lib/movies.txt').reject { |movie| movie.year < 2009 }.count
 # p Imdb::MovieCollection.new('../lib/movies.txt').select { |movie| movie.year < 2009 }.count
 
-netflix.pay(100)
+# netflix.pay(100)
 
-p netflix.show(title: 'Persona', year: 1964...1970, country: "Sweden")
+# p netflix.show(title: 'Persona', year: 1964...1970, country: "Sweden")
 
-netflix.define_filter(:new_sci_fi) { |movie| movie.period == :new && movie.genre.include?('Sci-Fi') }
-p netflix.show(new_sci_fi: true)
+# netflix.define_filter(:new_sci_fi) { |movie| movie.period == :new && movie.genre.include?('Sci-Fi') }
+# p netflix.show(new_sci_fi: true)
 
-netflix.define_filter(:new_sci_fi) { |movie, year| movie.year > year && movie.genre.include?('Sci-Fi') }
-p netflix.show(new_sci_fi: 2010, country: 'USA', title: 'Interstellar')
+# netflix.define_filter(:new_sci_fi) { |movie, year| movie.year > year && movie.genre.include?('Sci-Fi') }
+# p netflix.show(new_sci_fi: 2010, country: 'USA', title: 'Interstellar')
 
-netflix.define_filter(:newest_sci_fi, from: :new_sci_fi, arg: 2014)
-p netflix.show(newest_sci_fi: true, country: "Australia")
+# netflix.define_filter(:newest_sci_fi, from: :new_sci_fi, arg: 2014)
+# p netflix.show(newest_sci_fi: true, country: "Australia")
 
-p netflix.user_filters
+# p netflix.user_filters
