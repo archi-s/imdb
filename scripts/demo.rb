@@ -6,9 +6,9 @@
 # require_relative '../lib/movie'
 
 # begin
-  # collection = Imdb::MovieCollection.new('../lib/movies.txt')
-  # netflix = Imdb::Netflix.new('../lib/movies.txt')
-#    theatre = Imdb::Theatre.new('../lib/movies.txt')
+#   collection = Imdb::MovieCollection.new('../lib/movies.txt')
+#   netflix = Imdb::Netflix.new('../lib/movies.txt')
+#   theatre = Imdb::Theatre.new('../lib/movies.txt')
 # rescue Imdb::Movie::ClassNotFound => e
 #   p e.message
 # end
@@ -21,8 +21,9 @@
 # puts collection.directors
 # p collection.not_country_movies('USA')
 # p collection.stat_by_month
-# p collection.filter(year: 2001...2003, title: /Monsters/i )
+# p collection.filter(title: 'Persona', year: 1966, country: "Sweden")
 # p collection.stats(:director)
+
 
 # begin
 #   p collection.all.first.has_genre?('Crime')
@@ -105,15 +106,15 @@
 
 # netflix.pay(100)
 
-# p netflix.show(period: :new, genre: 'Comedy', year: 2000..2018)
+# p netflix.show(title: 'Persona', year: 1964...1970, country: "Sweden")
 
 # netflix.define_filter(:new_sci_fi) { |movie| movie.period == :new && movie.genre.include?('Sci-Fi') }
 # p netflix.show(new_sci_fi: true)
 
 # netflix.define_filter(:new_sci_fi) { |movie, year| movie.year > year && movie.genre.include?('Sci-Fi') }
-# p netflix.show(new_sci_fi: 2010)
+# p netflix.show(new_sci_fi: 2010, country: 'USA', title: 'Interstellar')
 
 # netflix.define_filter(:newest_sci_fi, from: :new_sci_fi, arg: 2014)
-# p netflix.show(newest_sci_fi: true)
+# p netflix.show(newest_sci_fi: true, country: "Australia")
 
 # p netflix.user_filters

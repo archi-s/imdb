@@ -26,11 +26,11 @@ module Imdb
       @balance += Money.new(money * 100, 'USD')
     end
 
-    def show(options, &blk)
-      movie = select_movie(options, &blk)
+    def show(*options, &blk)
+      movie = select_movie(*options, &blk)
       raise NotEnoughMoney, "Not enough $#{movie.cost - @balance}" if @balance < movie.cost
       @balance -= movie.cost
-      puts "«Now showing: #{movie.title} #{Time.now.strftime('%H:%M:%S')} - #{(Time.now + movie.duration * 60).strftime('%H:%M:%S') }»"
+      puts "«Now showing: #{movie.title} (#{movie.year}; #{movie.genre.join(', ')}; #{movie.country}) #{Time.now.strftime('%H:%M:%S')} - #{(Time.now + movie.duration * 60).strftime('%H:%M:%S') }»"
     end
 
     def define_filter(filter_name, from: nil, arg: nil, &blk)
@@ -39,20 +39,19 @@ module Imdb
 
     private
 
-    def select_movie(options)
-      movies_by_options = options.reduce(all) do |movies, hash|
+     def select_movie(options)
+      showing_movie = options.reduce(all) do |movies, (field, value)|
         if block_given?
           movies.select { |movie| yield(movie) }
-        elsif @user_filters[hash.first].nil?
-          raise MoviesByPatternNotFound, 'Movies by pattern not found' if filter(options).empty?
-          filter(options)
+        elsif @user_filters[field].nil?
+          raise MoviesByPatternNotFound, 'Movies by pattern not found' if filter({field => value}).empty?
+          movies.select { |movie| filter({field => value}).include? movie }
         else
-          hash.inject(movies) do |v|
-            v.select { |movie| @user_filters[hash.first].call(movie, hash.last) }
-          end
+          {field => value}.inject(movies) { |_movies, (k, v)| movies.select { |movie| @user_filters[k].call(movie, v) } }
         end
-      end
-      movies_by_options.max_by { |movie| movie.rating + rand(100) }
+       end
+      showing_movie.max_by { |movie| movie.rating + rand(100) }
     end
+
   end
 end

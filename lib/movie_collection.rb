@@ -56,7 +56,7 @@ module Imdb
 
     def filter(options)
       check_options!(*options.keys)
-      @movies.select { |movie| movie.matches_filter?(options) }
+      all.select { |movie| movie.matches_filter?(options) }
     end
 
     def stats(options)

@@ -43,7 +43,7 @@ module Imdb
     private
 
     def matches_pattern?(filter_name, filter_value)
-      result = send(filter_name)
+      result = self.send(filter_name)
       if result.is_a?(Array)
         if filter_value.is_a?(Array)
           filter_value.any? { |v| result.include?(v) }
