@@ -26,8 +26,8 @@ module Imdb
       @balance += Money.new(money * 100, 'USD')
     end
 
-    def show(*options, &blk)
-      movie = select_movie(*options, &blk)
+    def show(**options, &blk)
+      movie = select_movie(**options, &blk)
       raise NotEnoughMoney, "Not enough $#{movie.cost - @balance}" if @balance < movie.cost
       @balance -= movie.cost
       puts "«Now showing: #{movie.title} (#{movie.year}; #{movie.genre.join(', ')}; #{movie.country}) #{Time.now.strftime('%H:%M:%S')} - #{(Time.now + movie.duration * 60).strftime('%H:%M:%S') }»"
@@ -39,7 +39,7 @@ module Imdb
 
     private
 
-     def select_movie(options)
+     def select_movie(**options)
       showing_movie = options.reduce(all) do |movies, (field, value)|
         if block_given?
           movies.select { |movie| yield(movie) }
@@ -47,7 +47,7 @@ module Imdb
           raise MoviesByPatternNotFound, 'Movies by pattern not found' if filter({field => value}).empty?
           movies.select { |movie| filter({field => value}).include? movie }
         else
-          {field => value}.inject(movies) { |_movies, (k, v)| movies.select { |movie| @user_filters[k].call(movie, v) } }
+          movies.select { |movie| @user_filters[field].call(movie, value) }
         end
        end
       showing_movie.max_by { |movie| movie.rating + rand(100) }

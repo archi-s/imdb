@@ -39,7 +39,7 @@ describe Imdb::Netflix do
 
     it 'When showing movie by personal filter' do
       subject.pay(10)
-      subject.define_filter(:new_sci_fi) { |movie| movie.period == :new && movie.genre.include?('Sci-Fi') }
+      subject.define_filter(:new_sci_fi) { |movie| movie.period == :new && movie.genre.include?('Sci-Fi') && movie.country == "USA" }
       expect{subject.show(new_sci_fi: true)}
       .to output(/«Now showing: .* \(20[0-9][0-9]; .*Sci-Fi.*; USA\) \d{2}:\d{2}:\d{2} - \d{2}:\d{2}:\d{2}»/i).to_stdout
       .and change(subject, :balance).by(Money.new(-500, 'USD'))
@@ -58,6 +58,15 @@ describe Imdb::Netflix do
       subject.define_filter(:new_sci_fi) { |movie| movie.period == :new && movie.genre.include?('Sci-Fi') }
       subject.define_filter(:newest_sci_fi, from: :new_sci_fi, arg: 2014)
       expect{subject.show(new_sci_fi: true, country: 'Australia')}
+      .to output(/^«Now showing: .* \(20[1-9][4-9]; .*Sci-Fi.*; Australia\) \d{2}:\d{2}:\d{2} - \d{2}:\d{2}:\d{2}»/i).to_stdout
+      .and change(subject, :balance).by(Money.new(-500, 'USD'))
+    end
+
+    it 'When a movie is displayed on a personal filter based on a personal filter with a default filter and with block' do
+      subject.pay(10)
+      subject.define_filter(:new_sci_fi) { |movie| movie.period == :new && movie.genre.include?('Sci-Fi') }
+      subject.define_filter(:newest_sci_fi, from: :new_sci_fi, arg: 2014)
+      expect{subject.show(new_sci_fi: true, country: 'Australia') { |movie| movie.title.include?('Mad Max: Fury Road') && movie.genre.include?('Adventure') && movie.year == 2015} }
       .to output(/^«Now showing: .* \(20[1-9][4-9]; .*Sci-Fi.*; Australia\) \d{2}:\d{2}:\d{2} - \d{2}:\d{2}:\d{2}»/i).to_stdout
       .and change(subject, :balance).by(Money.new(-500, 'USD'))
     end
