@@ -10,7 +10,7 @@ module Imdb
     ParametrNotExist = Class.new(StandardError)
 
     def initialize(file)
-      @movies = CSV.read(file, col_sep: '|').map { |movie| Movie.create(movie, object_id) }
+      @movies = CSV.read(file, col_sep: '|').map { |movie| Movie.create(movie, self) }
     end
 
     def all

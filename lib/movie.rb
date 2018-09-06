@@ -36,7 +36,7 @@ module Imdb
     end
 
     def has_genre?(genre)
-      raise GenreNotExist, "Genre #{genre} not exist" if ObjectSpace._id2ref(@collection).genres.count(genre).zero?
+      raise GenreNotExist, "Genre #{genre} not exist" if @collection.genres.count(genre).zero?
       @genre.include?(genre)
     end
 
@@ -56,6 +56,10 @@ module Imdb
     end
 
     def to_s
+      "#{movie.title} (#{movie.release}; #{movie.genre}) - #{movie.duration}"
+    end
+
+    def inspect
       "#{movie.title} (#{movie.release}; #{movie.genre}) - #{movie.duration}"
     end
   end

@@ -13,5 +13,9 @@ module Imdb
     def to_s
       "«#{title} — современное кино: играют #{actors.join(', ')}»"
     end
+
+    def inspect
+      "«#{title} — современное кино: играют #{actors.join(', ')}»"
+    end
   end
 end
