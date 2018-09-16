@@ -1,6 +1,8 @@
 module Imdb
   class Netflix < MovieCollection
     extend CashBox
+    require_relative 'by_genre'
+    require_relative 'by_country'
 
     NotEnoughMoney               = Class.new(StandardError)
     MoviesByPatternNotFound = Class.new(StandardError)
@@ -37,6 +39,24 @@ module Imdb
       @user_filters[filter_name] = from.nil? && arg.nil? ? blk : proc { |movie| @user_filters[from].call(movie, arg) }
     end
 
+    def by_genre
+      ByGenre.new(self)
+    end
+
+    def by_country
+      ByCountry.new(self)
+    end
+
+    # class ByCountry
+    #   def initialize(collection)
+    #     collection.map(&:country).uniq.each do |country|
+    #       define_singleton_method(country.downcase) do
+    #         collection.filter(country: country)
+    #       end
+    #     end
+    #   end
+    # end
+
     private
 
      def select_movie(**options)
@@ -52,6 +72,5 @@ module Imdb
        end
       showing_movie.max_by { |movie| movie.rating + rand(100) }
     end
-
   end
 end

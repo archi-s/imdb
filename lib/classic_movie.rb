@@ -11,11 +11,12 @@ module Imdb
     private
 
     def to_s
-      "«#{title} — классический фильм, режиссёр #{director} (ещё #{@collection.filter(director: director).count} его фильмов в списке)»"
+      #"«#{title} — классический фильм, режиссёр #{director} (ещё #{@collection.filter(director: director).count} его фильмов в списке)»"
+      country
     end
 
     def inspect
-      "«#{title} — классический фильм, режиссёр #{director} (ещё #{@collection.filter(director: director).count} его фильмов в списке)»"
+      to_s
     end
   end
 end

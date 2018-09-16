@@ -11,11 +11,12 @@ module Imdb
     private
 
     def to_s
-      "«#{title} — современное кино: играют #{actors.join(', ')}»"
+      #"«#{title} — современное кино: играют #{actors.join(', ')}»"
+      country
     end
 
     def inspect
-      "«#{title} — современное кино: играют #{actors.join(', ')}»"
+      to_s
     end
   end
 end

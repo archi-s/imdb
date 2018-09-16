@@ -70,7 +70,5 @@ describe Imdb::Netflix do
       .to output(/^«Now showing: .* \(20[1-9][4-9]; .*Sci-Fi.*; Australia\) \d{2}:\d{2}:\d{2} - \d{2}:\d{2}:\d{2}»/i).to_stdout
       .and change(subject, :balance).by(Money.new(-500, 'USD'))
     end
-
   end
-
 end

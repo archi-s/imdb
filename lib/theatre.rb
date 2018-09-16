@@ -1,42 +1,95 @@
 module Imdb
   class Theatre < MovieCollection
+    require_relative 'period'
     include CashBox
+
+    attr_reader :hall
 
     PeriodNotFound    = Class.new(StandardError)
     MovieNotShowing = Class.new(StandardError)
+    PeriodsError          = Class.new(StandardError)
 
-    PERIODS = { 6..12   => { period: :ancient },
-                          13..17 => { genre: ['Comedy', 'Adventure'] },
-                          18..23 => { genre: ['Drama', 'Horror'] } }
+      DEFAULT_SCHEDULE = {
+        morning: {
+          time: ('09:00'..'11:00'),
+          filters: { period: :ancient },
+          price: 3
+        },
+        afternoon: {
+          time: ('12:00'..'17:00'),
+          filters: { genre: %w[Comedy Adventure] },
+          price: 5
+        },
+        evening: {
+          time: ('18:00'..'23:00'),
+          filters: { genre: %w[Drama Horror] },
+          price: 10
+        }
+      }.freeze
 
-    COST = { PERIODS.keys[0] => Money.new(300, 'USD'),
-                    PERIODS.keys[1] => Money.new(500, 'USD'),
-                    PERIODS.keys[2] => Money.new(1000, 'USD') }
+    def initialize(file, &blk)
+      super(file)
+      @hall = Hash.new
+      @periods = Array.new
+      instance_eval(&blk) if block_given?
+      check_schedule
+    end
 
-    TIMES_OF_DAY = { 'Morning'   => PERIODS.values[0],
-                                    'Afternoon' => PERIODS.values[1],
-                                    'Evening'    => PERIODS.values[2] }
+    def hall(color, **attr_hash)
+      @hall[color] = attr_hash
+    end
+
+    def period(time, &blk)
+      @periods << Period.new(time, &blk)
+    end
+
+    def check_schedule
+      @periods
+          .combination(2)
+          .select { |p1, p2| p1.covers?(p2) }
+          .map do |period1, period2|
+            hall_title = @hall[(period1.halls & period2.halls).first][:title]
+            raise PeriodsError, "Сеансы: '#{period1.description}' и '#{period2.description}' пересекаются в зале: '#{hall_title}' в период с #{period2.time.first} по #{period1.time.last}"
+          end
+    end
 
     def when?(title)
       movie = filter(title: title).sample
-      TIMES_OF_DAY.select do |_period, pattern|
-        raise MovieNotShowing, 'Movie not showing' if filter(pattern).count(movie).zero?
-        filter(pattern).include? movie
-      end.keys
+      if @periods.empty?
+        DEFAULT_SCHEDULE.find_all do |_per, schedule|
+          raise MovieNotShowing, 'Movie not showing' if filter(schedule[:filters]).count(movie).zero?
+          filter(schedule[:filters]).include? movie
+        end
+      else
+        periods = @periods.find_all do |period|
+            raise MovieNotShowing, 'Movie not showing' if filter(period.filter).count(movie).zero?
+            filter(period.filter).include? movie
+          end.map(&:time)
+        DEFAULT_SCHEDULE.find_all { |_per, schedule| periods.any? { |time_range| time_range.first.to_i >= schedule[:time].first.to_i && time_range.last.to_i <= schedule[:time].last.to_i } }
+      end.to_h.keys
     end
 
     def buy_ticket
-      _time, money = COST.find { |time, _cost| time === Time.now.hour }
-      _period, pattern = PERIODS.detect { |period, _pattern| period === Time.now.hour }
-      times_of_day, _pattern = TIMES_OF_DAY.detect { |_times_of_day, sample| pattern == sample }
-      pay(money)
-      show(times_of_day)
+      time_now = Time.now.strftime "%H:%M"
+      cost = if @periods.empty?
+                   DEFAULT_SCHEDULE.select { |_per, schedule| schedule[:time].cover? time_now }.map { |_per, schedule| schedule[:price] }
+                 else
+                   @periods.select { |period| period.time.cover? time_now }.map(&:cost).first
+                 end
+      pay(cost)
+      show(time_now)
     end
 
     def show(time)
-      raise PeriodNotFound, "Period #{time} not found" if TIMES_OF_DAY[time].nil?
-      showing_movie = filter(TIMES_OF_DAY[time]).max_by { |movie| movie.rating + rand(100) }
-      puts "«Now showing: #{showing_movie.title} #{Time.now.strftime '%H:%M:%S'} - #{(Time.now + (showing_movie.duration * 60)).strftime '%H:%M:%S' }»"
+      options = if @periods.empty?
+                        raise PeriodNotFound, "Period #{time} not found" if DEFAULT_SCHEDULE.find_all { |_per, schedule| schedule[:time].cover? time }.empty?
+                        DEFAULT_SCHEDULE.select { |_per, schedule| schedule[:time].cover? time }.map { |_per, schedule| schedule[:filters] }.first
+                      else
+                        raise PeriodNotFound, "Period #{time} not found" if @periods.find_all { |period| period.time.cover? time }.empty?
+                        @periods.select { |period| period.time.cover? time }.map { |period| period.filter }.first
+                      end
+      showing_movie = filter(options).max_by { |movie| movie.rating + rand(100) }
+      puts "«Now showing: #{showing_movie.title} (#{showing_movie.year}; #{showing_movie.genre.join(', ')}; #{showing_movie.country}) #{Time.now.strftime '%H:%M:%S'} - #{(Time.now + (showing_movie.duration * 60)).strftime '%H:%M:%S' }»"
     end
   end
 end

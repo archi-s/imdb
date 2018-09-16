@@ -1,37 +1,62 @@
 module Imdb
   class Movie
+    require 'virtus'
+    include Virtus.model
     require_relative 'ancient_movie'
     require_relative 'classic_movie'
     require_relative 'modern_movie'
     require_relative 'new_movie'
+
+    class SplitArray < Virtus::Attribute
+      def coerce(value)
+        value.split(',')
+      end
+    end
+
+    class ToInteger < Virtus::Attribute
+      def coerce(value)
+        value.to_i
+      end
+    end
+
+    attribute :url, String
+    attribute :title, String
+    attribute :year, Integer
+    attribute :country, String
+    attribute :release, String
+    attribute :genre, SplitArray
+    attribute :duration, ToInteger
+    attribute :rating, Float
+    attribute :director, String
+    attribute :actors, SplitArray
+    attribute :collection, @collection
 
     GenreNotExist = Class.new(StandardError)
     ClassNotFound = Class.new(ArgumentError)
 
     attr_reader *%i[url title year country release genre duration rating director actors]
 
-    def initialize(movie, collection)
-      @url, @title, @year, @country, @release, @genre, @duration, @rating, @director, @actors = movie.map(&:itself)
-      @year, @duration, @rating, @genre, @actors = @year.to_i, @duration.to_i, @rating.to_f, @genre.split(','), @actors.split(',')
-      @collection = collection
-    end
-
-    def self.create(movie, collection)
-      case movie[2].to_i
+    def self.create(movie)
+      case movie[:year].to_i
       when 1900..1944
-        AncientMovie.new(movie, collection)
+        AncientMovie.new(movie)
       when 1945..1967
-        ClassicMovie.new(movie, collection)
+        ClassicMovie.new(movie)
       when 1968..1999
-        ModernMovie.new(movie, collection)
+        ModernMovie.new(movie)
       when 2000..Time.now.year
-        NewMovie.new(movie, collection)
+        NewMovie.new(movie)
       end
     end
 
     def matches_filter?(options)
       options.reduce(true) do |res, (filter_name, filter_value)|
-        res && matches_pattern?(filter_name, filter_value)
+        if filter_name =~ /^exclude_(.+)/
+          exclude_filter_name = Regexp.last_match(1)
+          res && !matches_pattern?(exclude_filter_name, filter_value)
+        else
+          res && matches_pattern?(filter_name, filter_value)
+        end
       end
     end
 
@@ -59,8 +84,8 @@ module Imdb
       "#{movie.title} (#{movie.release}; #{movie.genre}) - #{movie.duration}"
     end
 
-    def inspect
-      "#{movie.title} (#{movie.release}; #{movie.genre}) - #{movie.duration}"
-    end
+    # def inspect
+    #   "#{movie.title} (#{movie.release}; #{movie.genre}) - #{movie.duration}"
+    # end
   end
 end

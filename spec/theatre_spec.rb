@@ -15,13 +15,13 @@ describe Imdb::Theatre do
 
   describe '#buy_ticket' do
     it 'Testing buy ticket' do
-      expect{subject.buy_ticket}.to output(/^«[a-z].*[a-z]\s\d{2}:\d{2}:\d{2} - \d{2}:\d{2}:\d{2}»/i).to_stdout
+      expect{subject.buy_ticket}.to output(/«Now showing: .* \([1-2]\d{3}; .*; .*\) \d{2}:\d{2}:\d{2} - \d{2}:\d{2}:\d{2}»/i).to_stdout
     end
   end
 
   describe '#show' do
     it 'Testing show' do
-      expect{subject.show('Evening')}.to output(/^«[a-z].*[a-z]\s\d{2}:\d{2}:\d{2} - \d{2}:\d{2}:\d{2}»/i).to_stdout
+      expect{subject.show('Evening')}.to output(/«Now showing: .* \([1-2]\d{3}; .*; .*\) \d{2}:\d{2}:\d{2} - \d{2}:\d{2}:\d{2}»/i).to_stdout
     end
 
     it 'Testing not exist period' do

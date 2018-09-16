@@ -7,7 +7,7 @@ require_relative '../lib/movie'
 
 # begin
 #   collection = Imdb::MovieCollection.new('../lib/movies.txt')
-   netflix = Imdb::Netflix.new('../lib/movies.txt')
+#   netflix = Imdb::Netflix.new('../lib/movies.txt')
 #   theatre = Imdb::Theatre.new('../lib/movies.txt')
 # rescue Imdb::Movie::ClassNotFound => e
 #   p e.message
@@ -104,17 +104,69 @@ require_relative '../lib/movie'
 # p Imdb::MovieCollection.new('../lib/movies.txt').reject { |movie| movie.year < 2009 }.count
 # p Imdb::MovieCollection.new('../lib/movies.txt').select { |movie| movie.year < 2009 }.count
 
- netflix.pay(100)
+# netflix.pay(100)
 
-p netflix.show(title: 'Persona', year: 1964...1970, country: "Sweden")
+# p netflix.show(title: 'Persona', year: 1964...1970, country: "Sweden")
 
-netflix.define_filter(:new_sci_fi) { |movie| movie.period == :new && movie.genre.include?('Sci-Fi') }
-p netflix.show(new_sci_fi: true)
+# netflix.define_filter(:new_sci_fi) { |movie| movie.period == :new && movie.genre.include?('Sci-Fi') }
+# p netflix.show(new_sci_fi: true)
 
-netflix.define_filter(:new_sci_fi) { |movie, year| movie.year > year && movie.genre.include?('Sci-Fi') }
-p netflix.show(new_sci_fi: 2010, country: 'USA', title: 'Interstellar')
+# netflix.define_filter(:new_sci_fi) { |movie, year| movie.year > year && movie.genre.include?('Sci-Fi') }
+# p netflix.show(new_sci_fi: 2010, country: 'USA', title: 'Interstellar')
 
-netflix.define_filter(:newest_sci_fi, from: :new_sci_fi, arg: 2014)
-p netflix.show(newest_sci_fi: true, country: "Australia")
+# netflix.define_filter(:newest_sci_fi, from: :new_sci_fi, arg: 2014)
+# p netflix.show(newest_sci_fi: true, country: "Australia")
 
-p netflix.user_filters
+# p netflix.user_filters
+
+# p netflix.by_genre.comedy
+
+#puts netflix.by_country.usa
+
+#p netflix.by_country.new_zealand
+
+#p netflix.map(&:country).uniq.sort
+
+# theatre =
+#   Imdb::Theatre.new('../lib/movies.txt') do
+#     hall :blue, title: 'Синий зал', places: 50
+#     hall :green, title: 'Зелёный зал (deluxe)', places: 12
+#     hall :red, title: 'Красный зал', places: 100
+
+#     period '09:00'..'11:00' do
+#       description 'Утренний сеанс'
+#       filters genre: 'Comedy', year: 1940..1980
+#       price 10
+#       hall :red, :blue
+#     end
+
+#     period '11:00'..'16:00' do
+#       description 'Спецпоказ'
+#       title 'The Terminator'
+#       price 50
+#       hall :green
+#     end
+
+#     period '16:00'..'20:00' do
+#       description 'Вечерний сеанс'
+#       filters genre: ['Action', 'Drama'], year: 2007..Time.now.year
+#       price 20
+#       hall :red, :blue
+#     end
+
+#     period '20:00'..'22:00' do
+#       description 'Вечерний сеанс для киноманов'
+#       filters year: 1900..1945, exclude_country: 'USA'
+#       price 30
+#       hall :green
+#     end
+#   end
+
+# theatre = Imdb::Theatre.new('../lib/movies.txt')
+
+# theatre.show('24:00')
+
+# p theatre.when?("The Great Dictator")
+# theatre.buy_ticket
+# theatre.check_schedule
+

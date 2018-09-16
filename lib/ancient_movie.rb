@@ -11,11 +11,12 @@ module Imdb
     private
 
     def to_s
-      "«#{title} — старый фильм (#{year} год)»"
+      #"«#{title} — старый фильм (#{year} год)»"
+      country
     end
 
     def inspect
-      "«#{title} — старый фильм (#{year} год)»"
+      to_s
     end
   end
 end
