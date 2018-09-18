@@ -127,6 +127,13 @@ require_relative '../lib/movie'
 
 #p netflix.map(&:country).uniq.sort
 
+
+
+
+
+
+
+
 # theatre =
 #   Imdb::Theatre.new('../lib/movies.txt') do
 #     hall :blue, title: 'Синий зал', places: 50
@@ -154,19 +161,18 @@ require_relative '../lib/movie'
 #       hall :red, :blue
 #     end
 
-#     period '20:00'..'22:00' do
+#     period '19:00'..'22:00' do
 #       description 'Вечерний сеанс для киноманов'
 #       filters year: 1900..1945, exclude_country: 'USA'
 #       price 30
-#       hall :green
+#       hall :green, :red
 #     end
 #   end
 
-# theatre = Imdb::Theatre.new('../lib/movies.txt')
+#theatre = Imdb::Theatre.new('../lib/movies.txt')
 
-# theatre.show('24:00')
-
-# p theatre.when?("The Great Dictator")
-# theatre.buy_ticket
-# theatre.check_schedule
+#theatre.show('20:00')
+#p theatre.when?("The Great Dictator")
+#p theatre.buy_ticket
+#p theatre.check_schedule
 
