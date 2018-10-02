@@ -47,16 +47,6 @@ module Imdb
       ByCountry.new(self)
     end
 
-    # class ByCountry
-    #   def initialize(collection)
-    #     collection.map(&:country).uniq.each do |country|
-    #       define_singleton_method(country.downcase) do
-    #         collection.filter(country: country)
-    #       end
-    #     end
-    #   end
-    # end
-
     private
 
      def select_movie(**options)

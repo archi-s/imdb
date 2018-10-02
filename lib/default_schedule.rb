@@ -7,7 +7,7 @@ module Imdb
           hall :green, title: 'Зелёный зал (deluxe)', places: 12
           hall :red, title: 'Красный зал', places: 100
 
-          period '09:00'..'11:00' do
+          period '09:00'..'19:00' do
             description "Morning"
             filters  period: :ancient
             price 3

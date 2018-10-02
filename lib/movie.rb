@@ -84,8 +84,8 @@ module Imdb
       "#{movie.title} (#{movie.release}; #{movie.genre}) - #{movie.duration}"
     end
 
-    # def inspect
-    #   "#{movie.title} (#{movie.release}; #{movie.genre}) - #{movie.duration}"
-    # end
+    def inspect
+      to_s
+    end
   end
 end
