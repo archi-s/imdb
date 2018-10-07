@@ -71,4 +71,21 @@ describe Imdb::Netflix do
       .and change(subject, :balance).by(Money.new(-500, 'USD'))
     end
   end
+
+  describe 'By genre' do
+    it 'Testing all genres' do
+      subject.genres.each do |genre|
+        expect(subject.by_genre.send(genre.downcase)).to all have_attributes(genre:  include(genre))
+      end
+    end
+  end
+
+  describe 'By country' do
+    it 'Testing all countries' do
+      subject.all.map(&:country).uniq.each do |country|
+        expect(subject.by_country.send(country.downcase)).to all have_attributes(country: include(country))
+      end
+    end
+  end
+
 end

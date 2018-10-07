@@ -1,9 +1,9 @@
-require 'csv'
-require 'date'
-require 'money'
-require_relative '../lib/cash_box'
-require_relative '../lib/movie_collection'
-require_relative '../lib/movie'
+# require 'csv'
+# require 'date'
+# require 'money'
+# require_relative '../lib/cash_box'
+# require_relative '../lib/movie_collection'
+# require_relative '../lib/movie'
 
 # begin
 #   collection = Imdb::MovieCollection.new('../lib/movies.txt')
@@ -121,18 +121,11 @@ require_relative '../lib/movie'
 
 # p netflix.by_genre.comedy
 
-#puts netflix.by_country.usa
+# puts netflix.by_country.usa
 
-#p netflix.by_country.new_zealand
+# p netflix.by_country.new_zealand
 
-#p netflix.map(&:country).uniq.sort
-
-
-
-
-
-
-
+# p netflix.map(&:country).uniq.sort
 
 # theatre =
 #   Imdb::Theatre.new('../lib/movies.txt') do
@@ -161,11 +154,11 @@ require_relative '../lib/movie'
 #       hall :red, :blue
 #     end
 
-#     period '20:00'..'22:00' do
+#     period '19:00'..'22:00' do
 #       description 'Вечерний сеанс для киноманов'
 #       filters year: 1900..1945, exclude_country: 'USA'
 #       price 30
-#       hall :green, :red
+#       hall :green
 #     end
 #   end
 
