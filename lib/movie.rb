@@ -69,7 +69,7 @@ module Imdb
       url.split('/')[4]
     end
 
-    def to_ha
+    def to_h
       {
         url: url,
         title: title,
