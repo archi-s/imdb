@@ -13,9 +13,5 @@ module Imdb
     def to_s
       "«#{title} — старый фильм (#{year} год)»"
     end
-
-    # def inspect
-    #   to_s
-    # end
   end
 end

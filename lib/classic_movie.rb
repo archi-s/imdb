@@ -13,9 +13,5 @@ module Imdb
     def to_s
       "«#{title} — классический фильм, режиссёр #{director} (ещё #{@collection.filter(director: director).count} его фильмов в списке)»"
     end
-
-    # def inspect
-    #   to_s
-    # end
   end
 end

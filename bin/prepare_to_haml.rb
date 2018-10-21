@@ -21,4 +21,5 @@ class PrepareToHaml
   attribute :rating, Float
   attribute :director, String
   attribute :actors, JoinString
+
 end

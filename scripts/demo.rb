@@ -168,5 +168,5 @@ end
 # p theatre.when?("The Great Dictator")
 # theatre.buy_ticket
 
-# netflix.parse
-# netflix.save_to_html
+netflix.parse
+netflix.save_to_html

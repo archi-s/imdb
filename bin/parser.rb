@@ -32,5 +32,4 @@ class Parser
     page = Nokogiri::HTML(open(link)).at('h4:contains("Budget:")')
     budget = page.nil? ? 'N/A' : page.parent.text.gsub(/\D/, '')
   end
-
 end

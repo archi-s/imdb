@@ -102,9 +102,5 @@ module Imdb
     def to_s
       "#{movie.title} (#{movie.release}; #{movie.genre}) - #{movie.duration}"
     end
-
-    # def inspect
-    #   to_s
-    # end
   end
 end

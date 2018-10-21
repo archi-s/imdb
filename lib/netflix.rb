@@ -58,7 +58,7 @@ module Imdb
       data = YAML.load_file('../views/data.yml')
       res = all.map { |movie| PrepareToHaml.new([data[movie.imdb_id], movie.to_h].reduce(&:merge)) }
       page = Haml::Engine.new(File.read('../views/netflix.html.haml')).render(res)
-      File.write('../views/netflix.html', page, mode: 'a')
+      File.write('../views/netflix.html', page)
     end
 
     private

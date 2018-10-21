@@ -13,9 +13,5 @@ module Imdb
     def to_s
       "«#{title} — новинка, вышло #{Time.now.year - year} лет назад!»"
     end
-
-    # def inspect
-    #   to_s
-    # end
   end
 end
