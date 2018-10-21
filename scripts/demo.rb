@@ -1,17 +1,17 @@
-# require 'csv'
-# require 'date'
-# require 'money'
-# require_relative '../lib/cash_box'
-# require_relative '../lib/movie_collection'
-# require_relative '../lib/movie'
+require 'csv'
+require 'date'
+require 'money'
+require_relative '../lib/cash_box'
+require_relative '../lib/movie_collection'
+require_relative '../lib/movie'
 
-# begin
-#   collection = Imdb::MovieCollection.new('../lib/movies.txt')
-#   netflix = Imdb::Netflix.new('../lib/movies.txt')
-#   theatre = Imdb::Theatre.new('../lib/movies.txt')
-# rescue Imdb::Movie::ClassNotFound => e
-#   p e.message
-# end
+begin
+  #collection = Imdb::MovieCollection.new('../lib/movies.txt')
+  netflix = Imdb::Netflix.new('../lib/movies.txt')
+  #theatre = Imdb::Theatre.new('../lib/movies.txt')
+rescue Imdb::Movie::ClassNotFound => e
+  p e.message
+end
 
 # p collection.all
 # p collection.genres
@@ -167,3 +167,6 @@
 # theatre.show('20:00')
 # p theatre.when?("The Great Dictator")
 # theatre.buy_ticket
+
+netflix.parse
+netflix.save_to_html

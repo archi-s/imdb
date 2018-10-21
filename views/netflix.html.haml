@@ -1,0 +1,22 @@
+%html
+  %head
+    %meta{"http-equiv" => "Content-Type", content: "text/html; charset=utf-8"}
+    %title Film catalog
+  %body
+    %table
+      - map do |movie|
+        %tr
+          %td
+            %img{src: movie.poster, alt: movie.title}
+          %td= movie.ru_title
+          %td= movie.title
+          %td= movie.budget
+          %td= movie.year
+          %td= movie.country
+          %td= movie.release
+          %td= movie.genre
+          %td= movie.duration
+          %td= movie.rating
+          %td= movie.director
+          %td= movie.actors
+

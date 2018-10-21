@@ -1,0 +1,17 @@
+GIT
+  remote: git://github.com/leonid-shevtsov/ruby-progressbar.git
+  revision: 89bfaddf6e886205250bead78b61579000cdf50a
+  specs:
+    ruby-progressbar (0.1.0)
+
+GEM
+  specs:
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  ruby-progressbar!
+
+BUNDLED WITH
+   1.12.1

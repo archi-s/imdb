@@ -65,6 +65,25 @@ module Imdb
       @genre.include?(genre)
     end
 
+    def imdb_id
+      url.split('/')[4]
+    end
+
+    def to_ha
+      {
+        url: url,
+        title: title,
+        year: year,
+        country: country,
+        release: release,
+        genre: genre,
+        duration: duration,
+        rating: rating,
+        director: director,
+        actors: actors
+      }
+    end
+
     private
 
     def matches_pattern?(filter_name, filter_value)
@@ -84,8 +103,8 @@ module Imdb
       "#{movie.title} (#{movie.release}; #{movie.genre}) - #{movie.duration}"
     end
 
-    def inspect
-      to_s
-    end
+    # def inspect
+    #   to_s
+    # end
   end
 end
