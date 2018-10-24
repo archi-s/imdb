@@ -1,6 +1,8 @@
 require 'csv'
 require 'date'
 require 'money'
+require_relative '../lib/parser'
+require_relative '../lib/collection_renderer'
 require_relative '../lib/cash_box'
 require_relative '../lib/movie_collection'
 require_relative '../lib/movie'
@@ -168,5 +170,5 @@ end
 # p theatre.when?("The Great Dictator")
 # theatre.buy_ticket
 
-netflix.parse
-netflix.save_to_html
+Parser.new(netflix).run.write('../views/data.yml')
+#CollectionRenderer.new(netflix).write('../views/netflix.html')

@@ -1,8 +1,6 @@
 module Imdb
   class Netflix < MovieCollection
     extend CashBox
-    require_relative '../bin/parser'
-    require_relative '../bin/prepare_to_haml'
     require 'haml'
     require_relative 'by_genre'
     require_relative 'by_country'
@@ -50,15 +48,11 @@ module Imdb
       ByCountry.new(self)
     end
 
-    def parse
-      Parser.new(self)
-    end
-
     def save_to_html
       data = YAML.load_file('../views/data.yml')
-      res = all.map { |movie| PrepareToHaml.new([data[movie.imdb_id], movie.to_h].reduce(&:merge)) }
-      page = Haml::Engine.new(File.read('../views/netflix.html.haml')).render(res)
-      File.write('../views/netflix.html', page)
+      res = all.map { |movie| RenderedMovie.new(data[movie.imdb_id].merge(movie.to_h)) }
+      render = Haml::Engine.new(File.read('../views/netflix.html.haml')).render(res)
+      File.write('../views/netflix.html', render)
     end
 
     private
