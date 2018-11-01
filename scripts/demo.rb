@@ -1,19 +1,19 @@
-require 'csv'
-require 'date'
-require 'money'
-require_relative '../lib/parser'
-require_relative '../lib/collection_renderer'
-require_relative '../lib/cash_box'
-require_relative '../lib/movie_collection'
-require_relative '../lib/movie'
+# require 'csv'
+# require 'date'
+# require 'money'
+# require_relative '../lib/parser'
+# require_relative '../lib/collection_renderer'
+# require_relative '../lib/cash_box'
+# require_relative '../lib/movie_collection'
+# require_relative '../lib/movie'
 
-begin
-  #collection = Imdb::MovieCollection.new('../lib/movies.txt')
-  netflix = Imdb::Netflix.new('../lib/movies.txt')
-  #theatre = Imdb::Theatre.new('../lib/movies.txt')
-rescue Imdb::Movie::ClassNotFound => e
-  p e.message
-end
+# begin
+#    collection = Imdb::MovieCollection.new('../lib/movies2.txt')
+#    netflix = Imdb::Netflix.new('../lib/movies.txt')
+#    theatre = Imdb::Theatre.new('../lib/movies.txt')
+# rescue Imdb::Movie::ClassNotFound => e
+#   p e.message
+# end
 
 # p collection.all
 # p collection.genres
@@ -170,5 +170,5 @@ end
 # p theatre.when?("The Great Dictator")
 # theatre.buy_ticket
 
-Parser.new(netflix).run.write('../views/data.yml')
-#CollectionRenderer.new(netflix).write('../views/netflix.html')
+# Parser.new(collection).run.write('../views/data.yml')
+# CollectionRenderer.new(collection).write('../views/netflix.html')

@@ -57,7 +57,7 @@ module Imdb
     end
 
     def filter(options)
-      #check_options!(*options.keys)
+      check_options!(*options.keys)
       all.select { |movie| movie.matches_filter?(options) }
     end
 
@@ -69,8 +69,9 @@ module Imdb
     private
 
     def check_options!(*options)
-      options.map do |variable|
-        raise ParametrNotExist, "Parametr: #{variable} not exist" unless all.sample.methods.include? variable
+      keys = all.sample.methods + [:exclude_country]
+      options.map do |key|
+        raise ParametrNotExist, "Parametr: #{key} not exist" unless keys.include? key
       end
     end
   end

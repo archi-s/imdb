@@ -1,6 +1,6 @@
 require 'dotenv'
 Dotenv.load('../config/tmdb_api_key.env')
-require 'progressbar'
+require 'ruby-progressbar'
 require 'nokogiri'
 require 'yaml'
 require 'json'
@@ -14,11 +14,15 @@ class Parser
 
   def run
     progressbar = ProgressBar.create(total: @collection.all.length)
-    @data = @collection.map do |movie|
+     @data = @collection.map do |movie|
       progressbar.increment
-      { movie.imdb_id => { ru_title: tmdb_translation(movie.imdb_id), poster: tmdb_poster(movie.imdb_id), budget: budget_imdb(movie.imdb_id) } }
+      fetch_movie(movie.imdb_id)
     end.reduce(&:merge).to_yaml
     self
+  end
+
+  def fetch_movie(imdb_id)
+    { imdb_id => { ru_title: tmdb_translation(imdb_id), poster: tmdb_poster(imdb_id), budget: budget_imdb(imdb_id) } }
   end
 
   def write(path)
