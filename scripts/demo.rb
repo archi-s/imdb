@@ -1,20 +1,19 @@
-require 'csv'
-require 'date'
-require 'money'
-require_relative '../lib/parser'
-require_relative '../lib/collection_renderer'
-require_relative '../lib/cash_box'
-require_relative '../lib/movie_collection'
-require_relative '../lib/movie'
+# require 'csv'
+# require 'date'
+# require 'money'
+# require_relative '../lib/parser'
+# require_relative '../lib/collection_renderer'
+# require_relative '../lib/cash_box'
+# require_relative '../lib/movie_collection'
+# require_relative '../lib/movie'
 
-begin
-   #collection = Imdb::MovieCollection.new('../spec/test/movies_spec.txt')
-   collection = Imdb::MovieCollection.new('../lib/movies.txt')
-   # netflix = Imdb::Netflix.new('../lib/movies.txt')
-   # theatre = Imdb::Theatre.new('../lib/movies.txt')
-rescue Imdb::Movie::ClassNotFound => e
-  p e.message
-end
+# begin
+#    collection = Imdb::MovieCollection.new('../lib/movies.txt')
+#    netflix = Imdb::Netflix.new('../lib/movies.txt')
+#    theatre = Imdb::Theatre.new('../lib/movies.txt')
+# rescue Imdb::Movie::ClassNotFound => e
+#   p e.message
+# end
 
 # p collection.all
 # p collection.genres
@@ -174,10 +173,3 @@ end
 #Parser.new(collection).run.write('../views/data.yml')
 #CollectionRenderer.new(collection).write('../views/netflix.html')
 #Parser.new(collection).fetch_movie('tt9999999')
-
-page = Nokogiri::HTML(File.read('../spec/test/netflix.html'))
-
-#p page.xpath("//tr")[1].include?("Крестный отец")
-
-p page.css('td').join(' ')#.split(' ')
-#\n\nКрестный отецThe Godfather60000001972USA1972-03-24Crime, Drama1759.2Francis Ford CoppolaMarlon Brando, Al Pacino, James Caan
