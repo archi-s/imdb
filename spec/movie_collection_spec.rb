@@ -1,7 +1,7 @@
-require_relative 'spec_helper'
+require_relative 'config/spec_helper'
 
 describe Imdb::MovieCollection do
-  subject(:collection) { described_class.new('../lib/movies.txt') }
+  subject(:collection) { described_class.new('../data/movies.txt') }
 
     describe '#genres' do
       subject { collection.genres }

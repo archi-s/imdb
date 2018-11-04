@@ -1,7 +1,7 @@
 module Imdb
   class MovieCollection
-    require_relative 'netflix'
-    require_relative 'theatre'
+    require_relative 'cinemas/netflix'
+    require_relative 'cinemas/theatre'
 
     include Enumerable
 

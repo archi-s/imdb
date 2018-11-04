@@ -1,12 +1,12 @@
-require_relative 'spec_helper'
+require_relative 'config/spec_helper'
 
-describe Parser do
-  let(:parser) { described_class.new(Imdb::MovieCollection.new('test/movies_spec.txt')) }
+describe Imdb::Parser do
+  let(:parser) { described_class.new(Imdb::MovieCollection.new('data/movies_spec.txt')) }
 
   describe 'check_parsing' do
-    let(:file_write) { parser.run.write('test/data.yml') }
-    let(:file_read) { YAML.load_file('test/data.yml') }
-    let(:file_delete) { File.delete('test/data.yml') }
+    let(:file_write) { parser.run.write('data/data.yml') }
+    let(:file_read) { YAML.load_file('data/data.yml') }
+    let(:file_delete) { File.delete('data/data.yml') }
 
     before { file_write }
     after { file_delete }
@@ -33,7 +33,7 @@ describe Parser do
     end
 
     it 'non_existent_movie_id' do
-      expect{ parser.fetch_movie(non_existent_movie_id) }.to raise_error(Parser::MovieNotFound, '404 Not Found')
+      expect{ parser.fetch_movie(non_existent_movie_id) }.to raise_error(Imdb::Parser::MovieNotFound, '404 Not Found')
     end
   end
 end

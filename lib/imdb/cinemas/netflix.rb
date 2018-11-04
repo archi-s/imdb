@@ -2,8 +2,8 @@ module Imdb
   class Netflix < MovieCollection
     extend CashBox
     require 'haml'
-    require_relative 'by_genre'
-    require_relative 'by_country'
+    require_relative '../by_genre'
+    require_relative '../by_country'
 
     NotEnoughMoney               = Class.new(StandardError)
     MoviesByPatternNotFound = Class.new(StandardError)

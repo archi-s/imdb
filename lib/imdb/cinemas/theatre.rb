@@ -1,7 +1,7 @@
 module Imdb
   class Theatre < MovieCollection
-    require_relative 'period_builder'
-    require_relative 'default_schedule'
+    require_relative '../period_builder'
+    require_relative '../default_schedule'
     include CashBox
 
     PeriodNotFound    = Class.new(StandardError)

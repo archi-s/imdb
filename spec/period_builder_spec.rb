@@ -1,9 +1,9 @@
-require_relative 'spec_helper'
+require_relative 'config/spec_helper'
 
 describe Imdb::Theatre do
 
   let(:theatre_with_schedule) do
-   described_class.new('../lib/movies.txt') do
+   described_class.new('../data/movies.txt') do
       hall :blue, title: 'Синий зал', places: 50
       hall :green, title: 'Зелёный зал (deluxe)', places: 12
       hall :red, title: 'Красный зал', places: 100
@@ -25,7 +25,7 @@ describe Imdb::Theatre do
   end
 
   let(:theatre_with_bad_schedule) do
-   described_class.new('../lib/movies.txt') do
+   described_class.new('../data/movies.txt') do
       hall :blue, title: 'Синий зал', places: 50
       hall :green, title: 'Зелёный зал (deluxe)', places: 12
       hall :red, title: 'Красный зал', places: 100
@@ -47,13 +47,13 @@ describe Imdb::Theatre do
   end
 
   let(:theatre_with_bad_hall) do
-   described_class.new('../lib/movies.txt') do
+   described_class.new('../data/movies.txt') do
       hall :blue, title: 'Синий зал', places: -1
     end
   end
 
   let(:theatre_with_bad_period) do
-   described_class.new('../lib/movies.txt') do
+   described_class.new('../data/movies.txt') do
       hall :blue, title: 'Синий зал', places: 50
 
       period '16:00'..'20:00' do
@@ -65,7 +65,7 @@ describe Imdb::Theatre do
     end
   end
 
- let(:theatre_without_schedule) { described_class.new('../lib/movies.txt') }
+ let(:theatre_without_schedule) { described_class.new('../data/movies.txt') }
 
   describe '#check_theatre' do
     it '_with_schedule' do
