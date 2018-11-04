@@ -34,7 +34,9 @@ module Imdb
     GenreNotExist = Class.new(StandardError)
     ClassNotFound = Class.new(ArgumentError)
 
-    attr_reader *%i[url title year country release genre duration rating director actors]
+    KEYS = %i[url title year country release genre duration rating director actors]
+
+    attr_reader *KEYS
 
     def self.create(movie)
       case movie[:year].to_i
@@ -65,6 +67,14 @@ module Imdb
       @genre.include?(genre)
     end
 
+    def imdb_id
+      url.split('/')[4]
+    end
+
+    def to_h
+      KEYS.map { |var| [var, instance_variable_get("@#{var}")] }.to_h
+    end
+
     private
 
     def matches_pattern?(filter_name, filter_value)
@@ -82,10 +92,6 @@ module Imdb
 
     def to_s
       "#{movie.title} (#{movie.release}; #{movie.genre}) - #{movie.duration}"
-    end
-
-    def inspect
-      to_s
     end
   end
 end

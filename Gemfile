@@ -1,0 +1,8 @@
+gem 'ruby-progressbar'
+gem 'rspec', :require => 'spec'
+gem 'rspec-its'
+gem 'money'
+gem 'haml'
+gem 'virtus'
+gem 'dotenv'
+gem 'nokogiri'

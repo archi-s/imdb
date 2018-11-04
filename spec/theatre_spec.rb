@@ -1,7 +1,7 @@
-require_relative 'spec_helper'
+require_relative 'config/spec_helper'
 
 describe Imdb::Theatre do
-  subject { described_class.new('../lib/movies.txt') }
+  subject { described_class.new('../data/movies.txt') }
 
   describe '#when?' do
     it 'Testing when movie showing' do
