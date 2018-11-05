@@ -1,12 +1,12 @@
-require_relative '../lib/imdb.rb'
+# require_relative '../lib/imdb.rb'
 
-begin
-   collection = Imdb::MovieCollection.new('../data/movies.txt')
-   netflix = Imdb::Netflix.new('../data/movies.txt')
+# begin
+#    collection = Imdb::MovieCollection.new('../data/movies.txt')
+#    netflix = Imdb::Netflix.new('../data/movies.txt')
    #theatre = Imdb::Theatre.new('../data/movies.txt')
-rescue Imdb::Movie::ClassNotFound => e
-  p e.message
-end
+# rescue Imdb::Movie::ClassNotFound => e
+#   p e.message
+# end
 
 # p collection.all
 # p collection.genres
