@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require 'slop'
 require_relative '../lib/imdb'
 
