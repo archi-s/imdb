@@ -96,7 +96,7 @@ Netflix and Theatre are cinemas based on MovieCollection have cashboxes that can
 
 Build HTML page with collection data
 --------------------
-  Parser class makes requests to TMDB API to grabs movie poster, budget and alternative titles from tmdb and imdb, so you need to set your TMDB API Key in 'config/tmdb_api_key.env'.
+  Parser class makes requests to TMDB API to grabs movie poster, budget and alternative titles from tmdb and imdb, so you need to set your TMDB API Key in ```'config/tmdb_api_key.env'```.
 
 ```ruby
   # Create new parser instance:
