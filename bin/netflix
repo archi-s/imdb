@@ -1,0 +1,17 @@
+require 'slop'
+require_relative '../lib/imdb'
+
+options = Slop.parse do |o|
+  o.integer '--pay', 'amount', required: true
+  o.string '--show', 'filter', required: true
+end
+
+netflix = Imdb::Netflix.new('data/movies.txt')
+filter_key, filter_value = options[:show].split(':')
+
+begin
+  netflix.pay(options[:pay])
+  netflix.show filter_key.to_sym => filter_value
+rescue Exception => e
+  puts e.message
+end

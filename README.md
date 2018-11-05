@@ -1,18 +1,16 @@
-IMDB
-========
-
 IMDB is a console application to manipulate the data from the list of top 250 IMDB movies.
-Usage
 ==========
 
 Installation
 -------------------
+```ruby
 $ gem install imdb
+```
 
 Before you can use all the features of the library you want to connect a data file with movies in ```imdb/data/movies.txt```
 
-####MovieCollection
-
+MovieCollection
+------------------
 MovieCollection, created in the application, allows you to extract data and show filtered and sorted lists of movies, based on different criteria, also it can display any statistics on films.
 
 ```ruby
@@ -51,11 +49,10 @@ MovieCollection, created in the application, allows you to extract data and show
   # => false
 ```
 
-####Cinema
 
-  Netflix and Theatre are cinemas based on MovieCollection have cashboxes that can accept payments and sell tickets.
-
-#####Netflix
+Netflix
+----------------
+Netflix and Theatre are cinemas based on MovieCollection have cashboxes that can accept payments and sell tickets.
 
 ```ruby
   # make online cinema Netflix
@@ -79,12 +76,11 @@ MovieCollection, created in the application, allows you to extract data and show
   online.pay(35)
   # => 35.00
 
-  #You can filter movies by genre or by country:
+  # You can filter movies by genre or by country:
   netflix.by_genre.crime
   netflix.by_country.usa
 
-  You can define custom filters:
-
+  # You can define custom filters:
   netflix.define_filter(:new_sci_fi) { |movie| !movie.title.include?('Terminator') && movie.genre.include?('Action') && movie.year > 2003 }
   # Show results
   netflix.show(new_sci_fi: true)
@@ -97,23 +93,22 @@ MovieCollection, created in the application, allows you to extract data and show
   # You can also define new filter by inheriting from an existing one.
   netflix.define_filter(:newest_action, from: :new_action, arg: 2014)
 
-  #Build HTML page with collection data
-
+Build HTML page with collection data
+--------------------
   Parser class makes requests to TMDB API to grab some data, so you need to set your TMDB API Key in 'config/tmdb_api_key.env'.
 
-  Then create new parser instance:
-
+  # Create new parser instance:
   collection = Imdb::MovieCollection.new('./lib/movies.txt')
   Imdb::Parser.new(collection).run.write('../data/data.yml')
 
   Parser grabs movie poster, budget and alternative titles from tmdb and imdb.
 
-  #Now you can save your data to html:
+  # Now you can save your data to html:
   Imdb::CollectionRenderer.new(collection).write('../views/netflix.html')
-
 ```
 
-#####Theatre
+Theatre
+-------------------
 
 ```ruby
   # make usual cinema Theatre
@@ -179,9 +174,10 @@ MovieCollection, created in the application, allows you to extract data and show
   theatre.take('Bank')
   # => Проведена инкассация
   # => 0.00
+```
 
-####Run library from CLI
-
+Run library from CLI
+----------------
   There is an executable file (bin/netflix), which can be run from the command line
   passing it parameters, and receive the filtered data.
 
@@ -191,8 +187,8 @@ MovieCollection, created in the application, allows you to extract data and show
   # => The General — старый фильм (1926 год)
 ```
 
-####License
-
+License
+---------------
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 
 Author
