@@ -92,16 +92,16 @@ Netflix and Theatre are cinemas based on MovieCollection have cashboxes that can
 
   # You can also define new filter by inheriting from an existing one.
   netflix.define_filter(:newest_action, from: :new_action, arg: 2014)
+```
 
 Build HTML page with collection data
 --------------------
-  Parser class makes requests to TMDB API to grab some data, so you need to set your TMDB API Key in 'config/tmdb_api_key.env'.
+  Parser class makes requests to TMDB API to grabs movie poster, budget and alternative titles from tmdb and imdb, so you need to set your TMDB API Key in 'config/tmdb_api_key.env'.
 
+```ruby
   # Create new parser instance:
   collection = Imdb::MovieCollection.new('./lib/movies.txt')
   Imdb::Parser.new(collection).run.write('../data/data.yml')
-
-  Parser grabs movie poster, budget and alternative titles from tmdb and imdb.
 
   # Now you can save your data to html:
   Imdb::CollectionRenderer.new(collection).write('../views/netflix.html')
