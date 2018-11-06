@@ -47,6 +47,7 @@ GEM
       coercible (~> 1.0)
       descendants_tracker (~> 0.0, >= 0.0.3)
       equalizer (~> 0.0, >= 0.0.9)
+    yard (0.9.16)
 
 PLATFORMS
   ruby
@@ -55,12 +56,13 @@ DEPENDENCIES
   dotenv (= 2.5.0)
   haml (= 5.0.4)
   money (= 6.12.0)
-  nokogiri
+  nokogiri (= 1.8.5)
   rspec
-  rspec-its
-  ruby-progressbar
-  slop
-  virtus
+  rspec-its (= 1.2.0)
+  ruby-progressbar (= 1.10.0)
+  slop (= 4.6.2)
+  virtus (= 1.0.5)
+  yard
 
 BUNDLED WITH
    1.16.6
