@@ -1,23 +1,21 @@
-# require_relative '../lib/imdb.rb'
+require_relative '../lib/imdb.rb'
 
-# begin
-#    collection = Imdb::MovieCollection.new('../data/movies.txt')
-#    netflix = Imdb::Netflix.new('../data/movies.txt')
-   #theatre = Imdb::Theatre.new('../data/movies.txt')
-# rescue Imdb::Movie::ClassNotFound => e
-#   p e.message
-# end
+begin
+   collection = Imdb::MovieCollection.new('data/movies.txt')
+   # netflix = Imdb::Netflix.new('../data/movies.txt')
+   # theatre = Imdb::Theatre.new('../data/movies.txt')
+rescue Imdb::Movie::ClassNotFound => e
+  p e.message
+end
 
-# p collection.all
+# p collection.all.sample
 # p collection.genres
-# puts collection.sort_by(:director)
-# puts collection.top_five_movies_by_duration
-# puts collection.ten_comedies
-# p collection.directors.inspect
+# p collection.sort_by(:year)
+# p collection.directors
 # p collection.not_country_movies('USA')
 # p collection.stat_by_month
 # p collection.filter(title: 'Persona', year: 1966, country: "Sweden")
-# p collection.stats(:director)
+p collection.stats(:director1)
 
 
 # begin
