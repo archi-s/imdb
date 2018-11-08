@@ -40,8 +40,7 @@ module Imdb
     def genres
       @movies.flat_map(&:genre).uniq
     end
-    # Get a collection of films sorted by any of the available criteria:
-    # url, title, year, country, release, genre, duration, rating, director, actors.
+    # Get a collection of films sorted by any of the available criteria in the constant KEYS.
     # @param criterion [Symbol]
     # @return [Array<Movie>] sorted movies list.
     # @example Get the sort by year.
@@ -76,8 +75,7 @@ module Imdb
       .group_by { |release| release.strftime('%^B') }
       .map { |mon, amount| {mon => amount.size} }.reduce(&:merge)
     end
-    # Lets you to filter collection by any movie criteria:
-    # url, title, year, country, release, genre, duration, rating, director, actors.
+    # Lets you to filter collection by any movie criteria in the constant KEYS.
     # Multiple filters are allowed.
     # @param criteria [Hash] list of filters.
     # @return [Array<Movie>]
@@ -87,8 +85,7 @@ module Imdb
       check_options!(*criteria.keys)
       all.select { |movie| movie.matches_filter?(criteria) }
     end
-    # This method counts movies criterion values in collection by given criterion name.
-    # Available criteria: url, title, year, country, release, genre, duration, rating, director, actors.
+    # This method counts the number of films in the collection according to any criterion available in the KEYS constant.
     # @param criterion [Symbol]
     # @return [Hash{String => Integer}]
     # @example Get directors stats.
