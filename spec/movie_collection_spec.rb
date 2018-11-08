@@ -51,7 +51,7 @@ describe Imdb::MovieCollection do
       subject { collection.stat_by_month }
 
       context "stat by month" do
-        it { is_expected.to be_an(Array) }
+        it { is_expected.to be_an(Hash) }
       end
     end
 

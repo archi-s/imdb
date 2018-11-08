@@ -23,8 +23,8 @@ module Imdb
       end
    end
     # Returns an array with all the films in the collection, in the order in which they are read from the file.
-    # @return [Array] of objects of Movie class.
-    # @example Returns an array with all the films in the collection.
+    # @return [Array<Movie>] of child classes: NewMovie, AncientMovie, ModernMovie, ClassicMovie.
+    # @example Get an array of all movie objects from the MovieCollection object.
     #   collection.all #=> [#<Imdb::NewMovie:0x00000000fa54b0 ...>, ...]
     def all
       @movies
@@ -34,13 +34,16 @@ module Imdb
       @movies.each { |movie| yield movie }
     end
     # Returns a list of genres from all films in the collection.
-    # @return [Array] of genres.
+    # @return [Array<String>] of genres.
+    # @example Get all genres.
+    #   collection.genres #=> ["Comedy", "Drama", ...]
     def genres
       @movies.flat_map(&:genre).uniq
     end
-    # Returns collection of movies sorted by criterion.
+    # Get a collection of films sorted by any of the available criteria:
+    # url, title, year, country, release, genre, duration, rating, director, actors.
     # @param criterion [Symbol]
-    # @return [Array] sorted movies list.
+    # @return [Array<Movie>] sorted movies list.
     # @example Get the sort by year.
     #   collection.sort_by(:year) #=> [#<Imdb::NewMovie:0x00000000fa54b0 ...>, ...]
     def sort_by(criterion)
@@ -48,7 +51,7 @@ module Imdb
       @movies.sort_by(&criterion)
     end
     # Returns list of directors sorted by last name.
-    # @return [Array] of directors.
+    # @return [Array<String>] of directors.
     # @example Get sorted directors.
     #   collection.directors #=> ["Woody Allen", "Roger Allers", ...]
     def directors
@@ -63,40 +66,42 @@ module Imdb
       @movies.reject { |movie| movie.country.include? country }.count
     end
     # This method returns count release of movies sorted by month
-    # @return [Array]
+    # @return [Hash{String => Integer}]
     # @example Get stats: month - number of films made
-    #   collection.stat_by_month #=> ["JANUARY - 19", "FEBRUARY - 24", ...]
+    #   collection.stat_by_month #=> {"JANUARY" => 19, "FEBRUARY" => 24, ...}
     def stat_by_month
       @movies.reject { |movie| movie.release.count('-').zero? }
       .map { |movie| Date.strptime(movie.release, '%Y-%m') }
       .sort_by(&:mon)
       .group_by { |release| release.strftime('%^B') }
-      .map { |mon, amount| "#{mon} - #{amount.size}" }
+      .map { |mon, amount| {mon => amount.size} }.reduce(&:merge)
     end
-    # Lets you to filter collection by movie criteria.
+    # Lets you to filter collection by any movie criteria:
+    # url, title, year, country, release, genre, duration, rating, director, actors.
     # Multiple filters are allowed.
     # @param criteria [Hash] list of filters.
-    # @return [Array]
+    # @return [Array<Movie>]
     # @example Get movie objects matching criteria
     #   collection.filter(title: 'Persona', year: 1966, country: "Sweden") #=> [#<Imdb::ClassicMovie:0x00000002a8fd98 ...>]
     def filter(criteria)
       check_options!(*criteria.keys)
       all.select { |movie| movie.matches_filter?(criteria) }
     end
-    # This method counts movies attribute values in collection by given attribute name.
-    # @param criterion [Symbol] any criterion.
-    # @return [Hash]
+    # This method counts movies criterion values in collection by given criterion name.
+    # Available criteria: url, title, year, country, release, genre, duration, rating, director, actors.
+    # @param criterion [Symbol]
+    # @return [Hash{String => Integer}]
     # @example Get directors stats.
-    #   collection.stats(:director) #=> {"Frank Darabont"=>2, ...}
+    #   collection.stats(:director) #=> {"Adam Elliot"=>1, "Akira Kurosawa"=>6, ...}
     def stats(criterion)
       check_options!(*criterion)
       @movies.flat_map(&criterion).sort.group_by(&:itself).map { |k, v| [k, v.count] }.to_h
     end
 
     private
-    # Checking options for compliance with specified keys
-    # @param criteria [Hash]
-    # @return [nil] or raise error
+    # Check of parameters of correspondence to the keys specified in the constant KEYS
+    # @param criteria [Symbol]
+    # @return [nil] or [ParametrNotExist]
     # @example Entering a non-existent criterion.
     #   collection.stats(:director1) #=> Parametr: director1 not exist (Imdb::MovieCollection::ParametrNotExist)
     def check_options!(*criteria)
