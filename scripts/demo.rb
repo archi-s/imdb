@@ -8,14 +8,14 @@ rescue Imdb::Movie::ClassNotFound => e
   p e.message
 end
 
-# p collection.all.sample
+p collection#.all.sample
 # p collection.genres
 # p collection.sort_by(:year)
 # p collection.directors
 # p collection.not_country_movies('USA')
-p collection.stat_by_month
+# p collection.stat_by_month
 # p collection.filter(title: 'Persona', year: 1966, country: "Sweden")
-# p collection.stats(:director)
+# p collection.stats(:director1)
 
 
 # begin

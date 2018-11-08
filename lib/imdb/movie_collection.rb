@@ -16,7 +16,7 @@ module Imdb
     # Creates new instance and parses given txt file.
     # @param file [txt] with all movies
     # @example Generate new collection.
-    #   collection = Imdb::MovieCollection.new('../data/movies.txt') #=> <Imdb::MovieCollection:0x000000026d6738 ...>>]>
+    #   collection = Imdb::MovieCollection.new('../data/movies.txt') #=> #<Imdb::MovieCollection ID:16550420>
     def initialize(file)
       @movies = CSV.read(file, col_sep: '|', headers: KEYS).map do |movie|
         Movie.create(movie.to_h.merge(collection: self))
@@ -25,7 +25,7 @@ module Imdb
     # Returns an array with all the films in the collection, in the order in which they are read from the file.
     # @return [Array<Movie>] of child classes: NewMovie, AncientMovie, ModernMovie, ClassicMovie.
     # @example Get an array of all movie objects from the MovieCollection object.
-    #   collection.all #=> [#<Imdb::NewMovie:0x00000000fa54b0 ...>, ...]
+    #   collection.all #=> [#<Imdb::ModernMovie Princess Mononoke 1997>, ...]
     def all
       @movies
     end
@@ -45,7 +45,7 @@ module Imdb
     # @param criterion [Symbol]
     # @return [Array<Movie>] sorted movies list.
     # @example Get the sort by year.
-    #   collection.sort_by(:year) #=> [#<Imdb::NewMovie:0x00000000fa54b0 ...>, ...]
+    #   collection.sort_by(:year) #=> [#<Imdb::ModernMovie Princess Mononoke 1997>, ...]
     def sort_by(criterion)
       check_options!(*criterion)
       @movies.sort_by(&criterion)
@@ -82,7 +82,7 @@ module Imdb
     # @param criteria [Hash] list of filters.
     # @return [Array<Movie>]
     # @example Get movie objects matching criteria
-    #   collection.filter(title: 'Persona', year: 1966, country: "Sweden") #=> [#<Imdb::ClassicMovie:0x00000002a8fd98 ...>]
+    #   collection.filter(title: 'Persona', year: 1966, country: "Sweden") #=> [#<Imdb::ClassicMovie Persona 1966>, ...]
     def filter(criteria)
       check_options!(*criteria.keys)
       all.select { |movie| movie.matches_filter?(criteria) }
@@ -109,6 +109,10 @@ module Imdb
       criteria.map do |key|
         raise ParametrNotExist, "Parametr: #{key} not exist" unless keys.include? key
       end
+    end
+
+    def inspect
+      "#<#{self.class} ID:#{self.object_id}>"
     end
   end
 end
