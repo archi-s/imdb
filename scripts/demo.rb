@@ -8,7 +8,7 @@ rescue Imdb::Movie::ClassNotFound => e
   p e.message
 end
 
-p collection#.all.sample
+# p collection.all.sample
 # p collection.genres
 # p collection.sort_by(:year)
 # p collection.directors
