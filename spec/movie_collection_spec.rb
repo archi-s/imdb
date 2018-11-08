@@ -30,22 +30,6 @@ describe Imdb::MovieCollection do
 
     end
 
-    describe '#top_five_movies_by_duration' do
-      subject { collection.top_five_movies_by_duration }
-
-      context "top five movies by duration" do
-        it { is_expected.to be_an(Array) }
-      end
-    end
-
-    describe '#ten_comedies' do
-      subject { collection.ten_comedies }
-
-      context "ten comedies" do
-        it { is_expected.to be_an(Array) }
-      end
-    end
-
     describe '#directors' do
       subject { collection.directors }
 
@@ -67,7 +51,7 @@ describe Imdb::MovieCollection do
       subject { collection.stat_by_month }
 
       context "stat by month" do
-        it { is_expected.to be_an(Array) }
+        it { is_expected.to be_an(Hash) }
       end
     end
 

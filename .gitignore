@@ -1,1 +1,3 @@
 tmdb_api_key.env
+.yardoc/
+doc/
