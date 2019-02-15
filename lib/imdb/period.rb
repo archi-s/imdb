@@ -1,18 +1,17 @@
+class Range
+  def overlaps?(time)
+    last > time.first
+  end
+end
+
 module Imdb
   class Theatre
     class Period
       attr_accessor :time, :description, :filters, :price, :hall
 
-      class ::Range
-        def overlaps?(time)
-          last > time.first
-        end
+      def covers?(period)
+        time.overlaps?(period.time) && (hall & period.hall).any?
       end
-
-      def covers?(p2)
-        time.overlaps?(p2.time) && (hall & p2.hall).any?
-      end
-
     end
   end
 end

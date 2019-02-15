@@ -1,26 +1,27 @@
 # require_relative '../lib/imdb.rb'
 
 # begin
-#    collection = Imdb::MovieCollection.new('data/movies.txt')
-#    netflix = Imdb::Netflix.new('../data/movies.txt')
-#    theatre = Imdb::Theatre.new('../data/movies.txt')
+#   collection = Imdb::MovieCollection.new('../data/movies.txt')
+#   netflix = Imdb::Netflix.new('../data/movies.txt')
+#   theatre = Imdb::Theatre.new('../data/movies.txt')
 # rescue Imdb::Movie::ClassNotFound => e
 #   p e.message
 # end
 
 # p collection.all.sample
+# p collection.all.sample.period
+# p collection.all.sample.cost
 # p collection.genres
 # p collection.sort_by(:year)
 # p collection.directors
 # p collection.not_country_movies('USA')
 # p collection.stat_by_month
 # p collection.filter(title: 'Persona', year: 1966, country: "Sweden")
-# p collection.stats(:director1)
-
+# p collection.stats(:director)
 
 # begin
-#   p collection.all.first.has_genre?('Crime')
-#   p collection.all.first.has_genre?('Tragedy')
+#   p collection.all.first.genre?('Crime')
+#   p collection.all.first.genre?('Tragedy')
 # rescue Imdb::Movie::GenreNotExist => e
 #   p e.message
 # end
@@ -41,7 +42,7 @@
 
 # begin
 #     netflix.pay(10)
-#     netflix.show(period: :new, genre: 'Comey', year: 2000..2018)
+#     netflix.show(period: :new, genre: 'Comdy', year: 2000..2018)
 # rescue Imdb::Netflix::MoviesByPatternNotFound => e
 #     puts e.message
 # end
@@ -101,10 +102,14 @@
 
 # netflix.show(title: 'Persona', year: 1964...1970, country: "Sweden")
 
-# netflix.define_filter(:new_sci_fi) { |movie| movie.period == :new && movie.genre.include?('Sci-Fi') }
-#netflix.show(new_sci_fi: true)
+# netflix.define_filter(:new_sci_fi) do |movie|
+#   movie.period == :new && movie.genre.include?('Sci-Fi')
+# end
+# netflix.show(new_sci_fi: true)
 
-# netflix.define_filter(:new_sci_fi) { |movie, year| movie.year > year && movie.genre.include?('Sci-Fi') }
+# netflix.define_filter(:new_sci_fi) do |movie, year|
+#   movie.year > year && movie.genre.include?('Sci-Fi')
+# end
 # netflix.show(new_sci_fi: 2010, country: 'USA', title: 'Interstellar')
 
 # netflix.define_filter(:newest_sci_fi, from: :new_sci_fi, arg: 2014)
@@ -122,7 +127,7 @@
 
 # theatre =
 #   Imdb::Theatre.new('../data/movies.txt') do
-#     hall :blue, title: 'Синий зал', places: 50
+#     hall :blue, title: 'Синий зал', places: 0
 #     hall :green, title: 'Зелёный зал (deluxe)', places: 12
 #     hall :red, title: 'Красный зал', places: 100
 
@@ -159,8 +164,8 @@
 # puts theatre.when?("The Great Dictator")
 # theatre.buy_ticket
 
-#Imdb::Parser.new(collection).run.write('../data/data.yml')
-#Imdb::CollectionRenderer.new(collection).write('../views/netflix.html')
+# Imdb::Parser.new(collection).run.write('../data/data.yml')
+# Imdb::CollectionRenderer.new(collection).write('../views/netflix.html')
 # begin
 #     p Imdb::Parser.new(collection).fetch_movie('tt0068646')
 #     Imdb::Parser.new(collection).fetch_movie('tt9999999')

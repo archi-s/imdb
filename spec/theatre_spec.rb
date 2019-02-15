@@ -5,7 +5,7 @@ describe Imdb::Theatre do
 
   describe '#when?' do
     it 'Testing when movie showing' do
-      expect(subject.when?('The Great Dictator')).to eq(["From 09:00 to 19:00", "From 12:00 to 17:00", "From 18:00 to 23:00"])
+      expect(subject.when?('The Great Dictator')).to eq(["From 08:00 to 19:00", "From 12:00 to 17:00", "From 18:00 to 23:00"])
     end
 
     it 'Testing when movie not showing' do

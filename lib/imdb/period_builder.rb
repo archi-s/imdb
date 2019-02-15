@@ -12,7 +12,8 @@ module Imdb
 
       private
 
-      KNOWN_FILTERS = %i[url title year country release genre duration rating director actors].freeze
+      KNOWN_FILTERS =
+        %i[url title year country release genre duration rating director actors].freeze
 
       %i[description filters price].each do |sym|
         define_method(sym) do |arg|
@@ -30,6 +31,10 @@ module Imdb
         else
           super
         end
+      end
+
+      def respond_to_missing?(meth, _arg)
+        KNOWN_FILTERS.include?(meth)
       end
     end
   end
