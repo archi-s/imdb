@@ -5,10 +5,10 @@ module Imdb
     require_relative '../by_genre'
     require_relative '../by_country'
 
-    NotEnoughMoney               = Class.new(StandardError)
+    NotEnoughMoney = Class.new(StandardError)
     MoviesByPatternNotFound = Class.new(StandardError)
-    NegativeAmountEntered    = Class.new(StandardError)
-    MovieByTitleNotFound        = Class.new(StandardError)
+    NegativeAmountEntered = Class.new(StandardError)
+    MovieByTitleNotFound = Class.new(StandardError)
 
     attr_reader :balance, :user_filters
 
@@ -33,11 +33,18 @@ module Imdb
       movie = select_movie(**options, &blk)
       raise NotEnoughMoney, "Not enough $#{movie.cost - @balance}" if @balance < movie.cost
       @balance -= movie.cost
-      puts "«Now showing: #{movie.title} (#{movie.year}; #{movie.genre.join(', ')}; #{movie.country}) #{Time.now.strftime('%H:%M:%S')} - #{(Time.now + movie.duration * 60).strftime('%H:%M:%S') }»"
+      puts "«Now showing: #{movie.title} (#{movie.year}; #{movie.genre.join(', ')}; " \
+      "#{movie.country}) #{Time.now.strftime('%H:%M:%S')} - " \
+      "#{(Time.now + movie.duration * 60).strftime('%H:%M:%S')}»"
     end
 
     def define_filter(filter_name, from: nil, arg: nil, &blk)
-      @user_filters[filter_name] = from.nil? && arg.nil? ? blk : proc { |movie| @user_filters[from].call(movie, arg) }
+      @user_filters[filter_name] =
+        if from.nil? && arg.nil?
+          blk
+        else
+          proc { |movie| @user_filters[from].call(movie, arg) }
+        end
     end
 
     def by_genre
@@ -57,17 +64,19 @@ module Imdb
 
     private
 
-     def select_movie(**options)
+    def select_movie(**options)
       showing_movie = options.reduce(all) do |movies, (field, value)|
         if block_given?
           movies.select { |movie| yield(movie) }
         elsif @user_filters[field].nil?
-          raise MoviesByPatternNotFound, 'Movies by pattern not found' if filter({field => value}).empty?
-          movies.select { |movie| filter({field => value}).include? movie }
+          if filter(field => value).empty?
+            raise MoviesByPatternNotFound, 'Movies by pattern not found'
+          end
+          movies.select { |movie| filter(field => value).include? movie }
         else
           movies.select { |movie| @user_filters[field].call(movie, value) }
         end
-       end
+      end
       showing_movie.max_by { |movie| movie.rating + rand(100) }
     end
   end

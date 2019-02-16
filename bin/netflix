@@ -13,6 +13,6 @@ filter_key, filter_value = options[:show].split(':')
 begin
   netflix.pay(options[:pay])
   netflix.show filter_key.to_sym => filter_value
-rescue Exception => e
+rescue StandardError => e
   puts e.message
 end

@@ -34,9 +34,9 @@ module Imdb
     GenreNotExist = Class.new(StandardError)
     ClassNotFound = Class.new(ArgumentError)
 
-    KEYS = %i[url title year country release genre duration rating director actors]
+    KEYS = %i[url title year country release genre duration rating director actors].freeze
 
-    attr_reader *KEYS
+    attr_reader(*KEYS)
 
     def self.create(movie)
       case movie[:year].to_i
@@ -62,7 +62,17 @@ module Imdb
       end
     end
 
-    def has_genre?(genre)
+    def period
+      self.class.to_s.gsub(/.*::(.*)Movie/, '\1').downcase.to_sym
+    end
+
+    COST = { ancient: 100, classic: 150, modern: 300, new: 500 }.freeze
+
+    def cost
+      Money.new(COST[period], 'USD')
+    end
+
+    def genre?(genre)
       raise GenreNotExist, "Genre #{genre} not exist" if @collection.genres.count(genre).zero?
       @genre.include?(genre)
     end
@@ -78,7 +88,7 @@ module Imdb
     private
 
     def matches_pattern?(filter_name, filter_value)
-      result = self.send(filter_name)
+      result = send(filter_name)
       if result.is_a?(Array)
         if filter_value.is_a?(Array)
           filter_value.any? { |v| result.include?(v) }
@@ -86,7 +96,7 @@ module Imdb
           result.include? filter_value
         end
       else
-        filter_value === result
+        filter_value === result # rubocop:disable Style/CaseEquality
       end
     end
 

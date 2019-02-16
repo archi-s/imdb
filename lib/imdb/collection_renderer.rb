@@ -12,7 +12,9 @@ module Imdb
 
     def initialize(collection)
       data = YAML.load_file('../data/data.yml')
-      res = collection.map { |movie| Imdb::CollectionRenderer::RenderedMovie.new(data[movie.imdb_id].merge(movie.to_h)) }
+      res = collection.map do |movie|
+        Imdb::CollectionRenderer::RenderedMovie.new(data[movie.imdb_id].merge(movie.to_h))
+      end
       @render = Haml::Engine.new(File.read('../lib/imdb/template/netflix.haml')).render(res)
     end
 

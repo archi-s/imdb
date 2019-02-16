@@ -60,7 +60,7 @@ describe Imdb::Theatre do
         description 'Вечерний сеанс'
         filters genre: ['Action', 'Drama'], year: 2007..Time.now.year
         price 20
-        hall :red
+        hall "red"
       end
     end
   end
@@ -77,11 +77,11 @@ describe Imdb::Theatre do
     end
 
     it '_with_bad_hall' do
-      expect{ theatre_with_bad_hall }.to raise_error(Imdb::Theatre::HallError, "Invalid hall places")
+      expect{ theatre_with_bad_hall }.to raise_error(Imdb::Theatre::HallError, "Invalid places: {:title=>\"Синий зал\", :places=>-1}")
     end
 
     it '_with_bad_period' do
-      expect{ theatre_with_bad_period }.to raise_error(Imdb::Theatre::PeriodError, "Invalid hall [:red]")
+      expect{ theatre_with_bad_period }.to raise_error(Imdb::Theatre::PeriodError, "Invalid hall: [\"red\"]")
     end
 
     it '_without_schedule' do

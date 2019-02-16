@@ -8,5 +8,5 @@ require_relative 'imdb/movie_collection'
 require_relative 'imdb/movies/movie'
 
 module Imdb
-  VERSION = "0.0.1"
+  VERSION = '0.0.1'.freeze
 end

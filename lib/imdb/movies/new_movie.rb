@@ -1,13 +1,5 @@
 module Imdb
   class NewMovie < Movie
-    def period
-      :new
-    end
-
-    def cost
-      Money.new(500, 'USD')
-    end
-
     private
 
     def to_s
