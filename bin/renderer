@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+require_relative '../lib/imdb'
+
+begin
+  collection = Imdb::MovieCollection.new('../data/movies.txt')
+rescue Imdb::Error => e
+  p e.message
+end
+
+Imdb::CollectionRenderer.new(collection).write('../views/netflix.html')
