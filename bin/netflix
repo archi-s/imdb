@@ -3,12 +3,16 @@ require 'slop'
 require_relative '../lib/imdb'
 
 options = Slop.parse do |o|
-  o.integer '--pay', 'amount', required: true
-  o.string '--show', 'filter', required: true
+  o.integer '--pay', required: true
+  o.string '--show', required: true
 end
 
-netflix = Imdb::Netflix.new('data/movies.txt')
+netflix = Imdb::Netflix.new('../data/movies.txt')
 filter_key, filter_value = options[:show].split(':')
+
+# p options[:pay]
+# p filter_key
+# p filter_value
 
 begin
   netflix.pay(options[:pay])

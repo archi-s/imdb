@@ -13,12 +13,14 @@ module Imdb
     KEYS = %i[url title year country release genre duration rating director actors].freeze
 
     ParametrNotExist = Class.new(StandardError)
+    FileNotFound = Class.new(StandardError)
 
     # Creates new instance and parses given txt file.
     # @param file [txt] with all movies
     # @example Generate new collection.
     #   collection = Imdb::MovieCollection.new('../data/movies.txt') #=> #<Imdb::MovieCollection ID>
     def initialize(file)
+      raise FileNotFound, "#{file} not found" unless File.exists?(file)
       @movies = CSV.read(file, col_sep: '|', headers: KEYS).map do |movie|
         Movie.create(movie.to_h.merge(collection: self))
       end

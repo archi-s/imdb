@@ -48,6 +48,8 @@ module Imdb
         ModernMovie.new(movie)
       when 2000..Time.now.year
         NewMovie.new(movie)
+      else
+        raise ClassNotFound, 'Class not found'
       end
     end
 
