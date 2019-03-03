@@ -31,8 +31,8 @@ module Imdb
     attribute :actors, SplitArray
     attribute :collection, @collection
 
-    GenreNotExist = Class.new(StandardError)
-    ClassNotFound = Class.new(ArgumentError)
+    GenreNotExist = Class.new(Error)
+    ClassNotFound = Class.new(Error)
 
     KEYS = %i[url title year country release genre duration rating director actors].freeze
 
@@ -48,6 +48,8 @@ module Imdb
         ModernMovie.new(movie)
       when 2000..Time.now.year
         NewMovie.new(movie)
+      else
+        raise ClassNotFound, 'Class not found'
       end
     end
 

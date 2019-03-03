@@ -8,7 +8,7 @@ module Imdb
     require 'json'
     require 'open-uri'
 
-    MovieNotFound = Class.new(StandardError)
+    MovieNotFound = Class.new(Error)
 
     def initialize(collection)
       @api_key = ENV['TMDB_API_KEY']

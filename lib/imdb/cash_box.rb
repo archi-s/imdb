@@ -1,7 +1,7 @@
 module CashBox
   I18n.config.available_locales = :en
 
-  class CallPolice < StandardError; end
+  CallPolice = Class.new(StandardError)
 
   attr_reader :cash
 

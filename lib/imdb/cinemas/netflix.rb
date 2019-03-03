@@ -5,10 +5,10 @@ module Imdb
     require_relative '../by_genre'
     require_relative '../by_country'
 
-    NotEnoughMoney = Class.new(StandardError)
-    MoviesByPatternNotFound = Class.new(StandardError)
-    NegativeAmountEntered = Class.new(StandardError)
-    MovieByTitleNotFound = Class.new(StandardError)
+    NotEnoughMoney = Class.new(Error)
+    MoviesByPatternNotFound = Class.new(Error)
+    NegativeAmountEntered = Class.new(Error)
+    MovieByTitleNotFound = Class.new(Error)
 
     attr_reader :balance, :user_filters
 
