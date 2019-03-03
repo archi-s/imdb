@@ -11,9 +11,8 @@ module Imdb
     include Enumerable
 
     KEYS = %i[url title year country release genre duration rating director actors].freeze
-
-    ParametrNotExist = Class.new(StandardError)
-    FileNotFound = Class.new(StandardError)
+    ParametrNotExist = Class.new(Error)
+    FileNotFound = Class.new(Error)
 
     # Creates new instance and parses given txt file.
     # @param file [txt] with all movies

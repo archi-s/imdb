@@ -4,11 +4,11 @@ module Imdb
     require_relative '../default_schedule'
     include CashBox
 
-    PeriodNotFound = Class.new(StandardError)
-    MovieNotShowing = Class.new(StandardError)
-    ScheduleError = Class.new(StandardError)
-    HallError = Class.new(StandardError)
-    PeriodError = Class.new(StandardError)
+    PeriodNotFound = Class.new(Error)
+    MovieNotShowing = Class.new(Error)
+    ScheduleError = Class.new(Error)
+    HallError = Class.new(Error)
+    PeriodError = Class.new(Error)
 
     def initialize(file, &blk)
       super(file)

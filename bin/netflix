@@ -10,13 +10,9 @@ end
 netflix = Imdb::Netflix.new('../data/movies.txt')
 filter_key, filter_value = options[:show].split(':')
 
-# p options[:pay]
-# p filter_key
-# p filter_value
-
 begin
   netflix.pay(options[:pay])
   netflix.show filter_key.to_sym => filter_value
-rescue StandardError => e
+rescue => e
   puts e.message
 end
