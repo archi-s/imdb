@@ -8,25 +8,20 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Max: 30
 
-Style/AsciiComments:
+Metrics/AbcSize:
   Enabled: false
 
-# Metrics/AbcSize:
-#   Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
 
-# Metrics/CyclomaticComplexity:
-#   Enabled: false
+Metrics/BlockLength:
+  Enabled: false
+
+Security/Open:
+  Enabled: false
 
 Style/Documentation:
   Enabled: false
 
-
-
-# Style/CaseEquality:
-#   Enabled: false
-
-# Lint/AmbiguousOperator:
-#   Enabled: false
-
-# Naming/PredicateName:
-#   Enabled: false
+Style/AsciiComments:
+  Enabled: false

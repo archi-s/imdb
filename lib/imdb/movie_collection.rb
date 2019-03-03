@@ -19,7 +19,7 @@ module Imdb
     # @example Generate new collection.
     #   collection = Imdb::MovieCollection.new('../data/movies.txt') #=> #<Imdb::MovieCollection ID>
     def initialize(file)
-      raise FileNotFound, "#{file} not found" unless File.exists?(file)
+      raise FileNotFound, "#{file} not found" unless File.exist?(file)
       @movies = CSV.read(file, col_sep: '|', headers: KEYS).map do |movie|
         Movie.create(movie.to_h.merge(collection: self))
       end
