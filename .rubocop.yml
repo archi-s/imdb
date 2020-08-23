@@ -3,7 +3,7 @@ AllCops:
     - 'spec/**/*'
 
 Metrics/LineLength:
-  Max: 100
+  Max: 120
 
 Metrics/MethodLength:
   Max: 30
@@ -25,3 +25,22 @@ Style/Documentation:
 
 Style/AsciiComments:
   Enabled: false
+
+Style/CaseEquality:
+  Enabled: false
+
+Style/MutableConstant:
+  Enabled: false
+
+Style/MethodMissingSuper:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Lint/ShadowingOuterLocalVariable:
+  Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+

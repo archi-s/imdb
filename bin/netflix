@@ -1,18 +1,19 @@
 #!/usr/bin/env ruby
-require 'slop'
 require_relative '../lib/imdb'
 
-options = Slop.parse do |o|
-  o.integer '--pay', required: true
+opts = Slop.parse do |o|
+  o.integer '--account', required: true
   o.string '--show', required: true
 end
 
-netflix = Imdb::Netflix.new('../data/movies.txt')
-filter_key, filter_value = options[:show].split(':')
+money = opts[:account]
+filter_name, filter_value = opts[:show].split(':')
+
+netflix = Imdb::Netflix.new(Imdb::MOVIE_FILE_PATH)
 
 begin
-  netflix.pay(options[:pay])
-  netflix.show filter_key.to_sym => filter_value
+  netflix.account(money)
+  netflix.show filter_name => filter_value
 rescue StandardError => e
   puts e.message
 end

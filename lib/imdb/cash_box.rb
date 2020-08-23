@@ -1,18 +1,24 @@
-module CashBox
-  I18n.config.available_locales = :en
+module Imdb
+  module CashBox
+    I18n.enforce_available_locales = false
 
-  CallPolice = Class.new(StandardError)
+    Robbery = Class.new(Error)
 
-  attr_reader :cash
+    attr_reader :cash
 
-  def pay(money)
-    @cash ||= Money.new(0, 'USD')
-    @cash += Money.new(money, 'USD')
-  end
+    def cashbox(money)
+      @cash ||= Money.new(0, 'USD')
+      @cash += Money.new(money, 'USD')
+    end
 
-  def take(who)
-    raise CallPolice, 'Call police' unless who == 'Bank'
-    @cash = Money.new(0, 'USD')
-    puts "Проведена инкассация. Наличных в кассе #{@cash.format}"
+    def take(who)
+      who == 'Bank' ? "Collection made. Balance: #{collection.format}" : raise(Robbery, 'Police called')
+    end
+
+    private
+
+    def collection
+      @cash = Money.new(0, 'USD')
+    end
   end
 end

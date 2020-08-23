@@ -1,14 +1,10 @@
 module Imdb
   class Parser
-    require 'dotenv'
-    Dotenv.load('../config/tmdb_api_key.env')
-    require 'ruby-progressbar'
-    require 'nokogiri'
-    require 'yaml'
-    require 'json'
-    require 'open-uri'
+    Dotenv.load(Imdb::TMDB_API_KEY_PATH)
 
     MovieNotFound = Class.new(Error)
+
+    attr_reader :collection, :data
 
     def initialize(collection)
       @api_key = ENV['TMDB_API_KEY']
@@ -16,8 +12,8 @@ module Imdb
     end
 
     def run
-      progressbar = ProgressBar.create(total: @collection.all.length)
-      @data = @collection.map do |movie|
+      progressbar = ProgressBar.create(total: collection.all.length)
+      @data = collection.map do |movie|
         progressbar.increment
         { movie.imdb_id => fetch_movie(movie.imdb_id) }
       end.reduce(&:merge).to_yaml
@@ -31,10 +27,8 @@ module Imdb
     end
 
     def write(path)
-      File.write(path, @data, mode: 'a')
+      File.write(path, data, mode: 'a')
     end
-
-    private
 
     def tmdb_poster(imdb_id)
       link =

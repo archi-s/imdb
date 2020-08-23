@@ -1,30 +1,23 @@
 #!/usr/bin/env ruby
-require 'slop'
-require 'pathname'
 require_relative '../lib/imdb'
 
 DataFileExist = Class.new(StandardError)
 
-PATH = Pathname.new('../data/data.yml')
+DATA_FILE = Imdb::DATA_FILE_PATH
 
-options = Slop.parse do |o|
+opts = Slop.parse do |o|
   o.bool '-u', '--update', required: false
 end
 
 begin
-  collection = Imdb::MovieCollection.new('../data/movies.txt')
+  collection = Imdb::MovieCollection.new(Imdb::MOVIE_FILE_PATH)
 rescue StandardError => e
   p e.message
   exit
 end
 
-if PATH.exist?
-  if options[:update]
-    PATH.delete
-  else
-    puts 'Data file exist. Run with key -u or --update to update data'
-    exit
-  end
+if DATA_FILE.exist?
+  opts[:update] ? DATA_FILE.delete : raise(DataFileExist, 'Run with -u or --update to update')
 end
 
-Imdb::Parser.new(collection).run.write(PATH)
+Imdb::Parser.new(collection).run.write(DATA_FILE)

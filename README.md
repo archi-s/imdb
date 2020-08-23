@@ -52,7 +52,7 @@ MovieCollection, created in the application, allows you to extract data and show
 
 Netflix
 ----------------
-Netflix and Theatre are cinemas based on MovieCollection have cashboxes that can accept payments and sell tickets.
+Netflix and Theatre are cinemas based on MovieCollection have cashboxes that can accept accountments and sell tickets.
 
 ```ruby
   # make online cinema Netflix
@@ -73,7 +73,7 @@ Netflix and Theatre are cinemas based on MovieCollection have cashboxes that can
   # => Elite Squad: The Enemy Within — новинка, вышло 6 лет назад!
 
   # put cash to cashbox of Netflix
-  online.pay(35)
+  online.account(35)
   # => 35.00
 
   # You can filter movies by genre or by country:
@@ -183,7 +183,7 @@ Run library from CLI
 
 ```ruby
   # run
-  $ bin/netflix netflix --pay 25 --show genre:Comedy
+  $ bin/netflix netflix --account 25 --show genre:Comedy
   # => The General — старый фильм (1926 год)
 ```
 

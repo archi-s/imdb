@@ -1,3 +1,0 @@
-http://imdb.com/title/tt0111161/?ref_=chttp_tt_1|The Shawshank Redemption|1994|USA|1994-10-14|Crime,Drama|142 min|9.3|Frank Darabont|Tim Robbins,Morgan Freeman,Bob Gunton
-http://imdb.com/title/tt0068646/?ref_=chttp_tt_2|The Godfather|1972|USA|1972-03-24|Crime,Drama|175 min|9.2|Francis Ford Coppola|Marlon Brando,Al Pacino,James Caan
-http://imdb.com/title/tt0071562/?ref_=chttp_tt_3|The Godfather: Part II|1974|USA|1974-12-20|Crime,Drama|200 min|9.1|Francis Ford Coppola|Al Pacino,Robert De Niro,Robert Duvall

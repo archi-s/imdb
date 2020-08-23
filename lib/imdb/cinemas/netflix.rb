@@ -1,83 +1,69 @@
 module Imdb
   class Netflix < MovieCollection
     extend CashBox
-    require 'haml'
-    require_relative '../by_genre'
-    require_relative '../by_country'
 
     NotEnoughMoney = Class.new(Error)
-    MoviesByPatternNotFound = Class.new(Error)
-    NegativeAmountEntered = Class.new(Error)
-    MovieByTitleNotFound = Class.new(Error)
+    CannotNegative = Class.new(Error)
+    MovieNotFound = Class.new(Error)
 
-    attr_reader :balance, :user_filters
+    COST = { ancient: 100, classic: 150, modern: 300, new: 500 }.freeze
+    USER_FILTERS = {}
+
+    attr_reader :balance
 
     def initialize(file)
       super
       @balance = Money.new(0, 'USD')
-      @user_filters = {}
     end
 
     def how_much?(title)
-      raise MovieByTitleNotFound, "Movie #{title} not found" if filter(title: /#{title}/i).empty?
-      filter(title: /#{title}/i).map(&:cost).map(&:format)
+      (movie = select_movie(filter(title: title))) || raise(MovieNotFound, "Movie #{title} not found")
+      Money.new(COST[movie.period], 'USD')
     end
 
-    def pay(money)
-      raise NegativeAmountEntered, "The amount #{money} can not be entered" if money <= 0
-      self.class.pay(money * 100)
-      @balance += Money.new(money * 100, 'USD')
+    def account(money)
+      raise CannotNegative, "Cannot be negative #{money}" if money <= 0
+      self.class.cashbox(money)
+      @balance += Money.new(money, 'USD')
     end
 
-    def show(**options, &blk)
-      movie = select_movie(**options, &blk)
-      raise NotEnoughMoney, "Not enough $#{movie.cost - @balance}" if @balance < movie.cost
-      @balance -= movie.cost
+    def show(params = nil, &blk)
+      (movie = select_movie(showing_movies(params, &blk))) || raise(MovieNotFound)
+      paid(movie)
+      start_time = Time.now.strftime '%H:%M:%S'
+      end_time = (Time.now + (movie.duration * 60)).strftime '%H:%M:%S'
       puts "«Now showing: #{movie.title} (#{movie.year}; #{movie.genre.join(', ')}; " \
-      "#{movie.country}) #{Time.now.strftime('%H:%M:%S')} - " \
-      "#{(Time.now + movie.duration * 60).strftime('%H:%M:%S')}»"
+      "#{movie.country}) #{start_time} - #{end_time}»"
     end
 
     def define_filter(filter_name, from: nil, arg: nil, &blk)
-      @user_filters[filter_name] =
-        if from.nil? && arg.nil?
-          blk
-        else
-          proc { |movie| @user_filters[from].call(movie, arg) }
-        end
-    end
-
-    def by_genre
-      ByGenre.new(self)
-    end
-
-    def by_country
-      ByCountry.new(self)
+      USER_FILTERS[filter_name] = from.nil? && arg.nil? ? blk : proc { |movie| USER_FILTERS[from].call(movie, arg) }
     end
 
     def save_to_html
-      data = YAML.load_file('../views/data.yml')
-      res = all.map { |movie| RenderedMovie.new(data[movie.imdb_id].merge(movie.to_h)) }
-      render = Haml::Engine.new(File.read('../views/netflix.html.haml')).render(res)
-      File.write('../views/netflix.html', render)
+      Imdb::CollectionRenderer.new(self).write(Imdb::NETFLIX_HTML_PATH)
     end
 
     private
 
-    def select_movie(**options)
-      showing_movie = options.reduce(all) do |movies, (field, value)|
-        if block_given?
-          movies.select { |movie| yield(movie) }
-        elsif @user_filters[field].nil?
-          if filter(field => value).empty?
-            raise MoviesByPatternNotFound, 'Movies by pattern not found'
+    def showing_movies(params = nil)
+      if params.nil?
+        all.select { |movie| yield(movie) } if block_given?
+      else
+        res = params.reduce(all) do |movies, (field, value)|
+          if USER_FILTERS[field].nil?
+            movies.select { |movie| filter(field => value).include? movie }
+          else
+            movies.select { |movie| USER_FILTERS[field].call(movie, value) }
           end
-          movies.select { |movie| filter(field => value).include? movie }
-        else
-          movies.select { |movie| @user_filters[field].call(movie, value) }
         end
+        block_given? ? res.select { |movie| yield(movie) } : res
       end
-      showing_movie.max_by { |movie| movie.rating + rand(100) }
+    end
+
+    def paid(movie)
+      cost = how_much?(movie.title)
+      @balance >= cost ? @balance -= cost : raise(NotEnoughMoney, "Not enough: #{cost - @balance}")
     end
   end
 end

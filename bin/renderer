@@ -2,9 +2,9 @@
 require_relative '../lib/imdb'
 
 begin
-  collection = Imdb::MovieCollection.new('../data/movies.txt')
+  collection = Imdb::MovieCollection.new(Imdb::MOVIE_FILE_PATH)
 rescue Imdb::Error => e
   p e.message
 end
 
-Imdb::CollectionRenderer.new(collection).write('../views/netflix.html')
+Imdb::CollectionRenderer.new(collection).write(Imdb::NETFLIX_HTML_PATH)
