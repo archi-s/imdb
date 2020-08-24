@@ -8,7 +8,7 @@ describe Imdb::MovieCollection do
   end
 
   it "should return a hash with the number of films sorted by release month" do
-    expect(collection.stat_by_month).to be_a_kind_of(Hash) & all(satisfy { |k, v| k.is_a?(String) && v.is_a?(Fixnum) })
+    expect(collection.stat_by_month).to be_a_kind_of(Hash) & all(satisfy { |k, v| k.is_a?(String) && v.is_a?(Integer) })
   end
 
   describe '#sort_by' do
@@ -39,7 +39,7 @@ describe Imdb::MovieCollection do
 
     shared_examples 'stats' do
       it { is_expected.to be_an(Hash) }
-      its(:values) { are_expected.to all be_a(Fixnum) }
+      its(:values) { are_expected.to all be_a(Integer) }
     end
 
     Imdb::Movie::KEYS[0..9].each do |field|
