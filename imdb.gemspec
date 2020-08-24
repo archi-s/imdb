@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'ruby-progressbar', '1.10.0'
   spec.add_dependency 'slop', '4.6.2'
   spec.add_dependency 'virtus', '1.0.5'
-  spec.add_dependency 'yard', '0.9.16'
+  spec.add_dependency 'yard', '0.9.20'
 
   spec.add_development_dependency 'bundler', '~> 1.3'
   spec.add_development_dependency 'rspec'
