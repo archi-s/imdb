@@ -76,9 +76,9 @@ Netflix and Theatre are cinemas based on MovieCollection have cashboxes that can
   online.account(35)
   # => 35.00
 
-  # You can filter movies by genre or by country:
-  netflix.by_genre.crime
-  netflix.by_country.usa
+  # You can filter movies by any field, such as genre or country:
+  netflix.genre.crime
+  netflix.country.usa
 
   # You can define custom filters:
   netflix.define_filter(:new_sci_fi) { |movie| !movie.title.include?('Terminator') && movie.genre.include?('Action') && movie.year > 2003 }
@@ -185,6 +185,24 @@ Run library from CLI
   # run
   $ bin/netflix netflix --account 25 --show genre:Comedy
   # => The General — старый фильм (1926 год)
+```
+
+  You can parse additional data for each movie in the collection by running:
+  bin/parser with the -u or --update option to update the existing data if available.
+
+```ruby
+  # run
+  $ bin/parser
+  # => data/data.yml
+```
+
+  You can generate a HTML document based on a collection of films and additional
+  movie data from the TMDB website.
+
+```ruby
+  # run
+  $ bin/render
+  # => views/netflix.html
 ```
 
 License
