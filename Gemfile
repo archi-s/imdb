@@ -1,7 +1,7 @@
 gem 'dotenv', '2.5.0'
 gem 'haml', '5.0.4'
 gem 'money', '6.12.0'
-gem 'nokogiri', '1.10.8'
+gem 'nokogiri', '1.13.2'
 gem 'rspec', require: 'spec'
 gem 'rspec-its', '1.2.0'
 gem 'rubocop', '0.58.2'
