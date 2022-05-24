@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'dotenv', '2.5.0'
   spec.add_dependency 'haml', '5.0.4'
   spec.add_dependency 'money', '6.12.0'
-  spec.add_dependency 'nokogiri', '1.10.8'
+  spec.add_dependency 'nokogiri', '1.13.6'
   spec.add_dependency 'ruby-progressbar', '1.10.0'
   spec.add_dependency 'slop', '4.6.2'
   spec.add_dependency 'virtus', '1.0.5'
